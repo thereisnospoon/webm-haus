@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/")
-public class HomeController {
+public class WebMController {
 
-	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger log = LoggerFactory.getLogger(WebMController.class);
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
 	private static Pattern pattern = Pattern.compile("\\d+");
@@ -58,8 +56,6 @@ public class HomeController {
 
 			long[] range = parseRange(request.getHeader("Range"), fileLength);
 
-			log.debug("Range: {}", range);
-
 			response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
 			response.setHeader("Content-Range", "bytes " + range[0] + "-" + range[1] + "/" + fileLength);
 			response.setHeader("Content-Length", "" + (range[1] - range[0] + 1));
@@ -89,29 +85,17 @@ public class HomeController {
 		long bytesToWrite = range[1] - range[0] + 1;
 		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
-		log.debug("Buffer size = {}", buffer.length);
-
-		long total = 0;
-
 		while (bytesToWrite > 0) {
 
+			int read;
 			if (bytesToWrite > buffer.length) {
-
-				bytesToWrite -= buffer.length;
-				total += inputStream.read(buffer);
-				outputStream.write(buffer);
-				outputStream.flush();
-
-				log.debug("Current read = {}", total);
+				read = inputStream.read(buffer);
 			} else {
-
-				int read = inputStream.read(buffer, 0, (int) bytesToWrite);
-				outputStream.write(buffer, 0, read);
-				outputStream.flush();
-				bytesToWrite = 0;
-				total += read;
+				read = inputStream.read(buffer, 0, (int) bytesToWrite);
 			}
+
+			bytesToWrite -= read;
+			outputStream.write(buffer, 0, read);
 		}
-		log.debug("Total written: {}", total);
 	}
 }
