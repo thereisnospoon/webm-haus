@@ -16,7 +16,7 @@
 
 
 	<mvc:annotation-driven/>
-	<mvc:resources mapping="/resouces" location="resources"/>
+	<mvc:resources mapping="/resources/**" location="/resources/"/>
 	<context:component-scan base-package="my.thereisnospoon.webm"/>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

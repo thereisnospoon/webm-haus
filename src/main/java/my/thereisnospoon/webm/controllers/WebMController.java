@@ -5,12 +5,12 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/webm")
 public class WebMController {
 
 	private static final Logger log = LoggerFactory.getLogger(WebMController.class);
@@ -30,15 +30,20 @@ public class WebMController {
 	private static Pattern pattern = Pattern.compile("\\d+");
 
 	@Autowired
-	private MongoTemplate mongoTemplate;
-
-	@Autowired
 	private GridFsTemplate gridFsTemplate;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public void getHome(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/{webmId}", method = RequestMethod.GET)
+	public void getWebM(HttpServletRequest request, HttpServletResponse response, @PathVariable String webmId)
+			throws Exception {
 
-		GridFSDBFile file = gridFsTemplate.findOne(Query.query(GridFsCriteria.whereFilename().is("webm.webm")));
+		GridFSDBFile file = gridFsTemplate.findOne(Query.query(GridFsCriteria.where("_id").is(webmId)));
+
+		if (file == null) {
+
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
 		long fileLength = file.getLength();
 
 		response.setContentType("video/webm");

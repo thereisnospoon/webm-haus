@@ -1,0 +1,61 @@
+{
+	"webMPost": {
+		"name": "cool webm",
+		"description": "description of video",
+		"postedWhen": "Date of webm posting",
+		"duration": "Duration in seconds",
+		"size": "Size of webm file in bytes",
+		"previewId": "_id of file in gridFS which is image preview for webm",
+		"fileId": "_id of file in gridFS which is webm itself",
+		"postedBy": {
+			"username": "name of user who posted webm",
+			"avatarId": "id of gridFS file which contains user avatar"
+		},
+		"tags": ["fun"],
+		"likesCounter": "number of likes",
+		"viewsCounter": "Number of views",
+		"topComments": [
+			{
+				"message": "Comment text",
+				"author": {
+					"username": "username of commenter",
+					"avatarId": "see above"
+				}
+			}
+		],
+		"addComments": "chunkId"
+	},
+
+	"comments": {
+		"_id": "chunk id",
+		"messages": [
+			{
+				"message": "Comment text",
+				"author": {
+					"username": "username of commenter",
+					"avatarId": "see above"
+				}
+			}
+		],
+		"nextChunk": "id of next coments chunk"
+	},
+
+	"users": {
+		"username": "username",
+		"description": "some short text",
+		"createdWhen": "date of creation",
+		"password": "hashed password",
+		"avatarId": "",
+		"roles": []
+	},
+
+	"likes": {
+		"username": "",
+		"webMPostId": ""
+	},
+
+	"uploads": {
+		"username": "",
+		"webMPostId": ""
+	}
+}
