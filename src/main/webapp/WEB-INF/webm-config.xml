@@ -16,6 +16,7 @@
 
 
 	<mvc:annotation-driven/>
+	<mvc:resources mapping="/resouces" location="resources"/>
 	<context:component-scan base-package="my.thereisnospoon.webm"/>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -36,9 +37,16 @@
 				connections-per-host="20"/>
 	</mongo:mongo>
 
+	<mongo:mapping-converter id="converter"/>
+
 	<mongo:db-factory id="mongoDbFactory" dbname="webm" mongo-ref="mongo"/>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory"/>
+	</bean>
+
+	<bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+		<constructor-arg ref="converter" />
 	</bean>
 </beans>
