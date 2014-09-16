@@ -4,16 +4,16 @@ body {
 
 #droparea {
     position: relative;
+    margin-top: 1em;
     box-sizing: border-box;
     margin-left: 30%;
     margin-right: 30%;
-    background-color: #97a5ab;
     text-align: center;
-    border: 1px solid #869398;
+    border: 4px dashed #869398;
     border-radius: 20px;
     min-height: 15em;
     max-height: 15em;
-    box-shadow: 0 0 0.5em;
     padding-top: 7em;
     font-size: 200%;
+    text-shadow: 0 0 0.03em;
 }
