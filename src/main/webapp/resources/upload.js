@@ -20,6 +20,8 @@ $(function() {
 
 	dropArea.bind('drop', function(event) {
 
+		dropArea.css('background-color', 'initial');
+
 		var droppedFile = event.originalEvent.dataTransfer.files[0];
 		console.log(droppedFile);
 
@@ -41,16 +43,53 @@ $(function() {
 		var formData = new FormData($('#file-input')[0]);
 		formData.append('file', droppedFile);
 
+		$('.progress').css('display', 'block');
+		var progressBar = $('.progress-bar');
+
+		dropArea.hide('drop', {direction: 'up'}, 'slow');
+		$('.panel').show('fold', 1000);
+
 		$.ajax({
 			type: 'POST',
 			contentType: false,
 			processData: false,
-			url: '/upload/file',
+			url: '/upload',
 			data: formData,
+			xhr: function() {
+
+				var xhr = new window.XMLHttpRequest();
+				xhr.addEventListener('progress', function(event) {
+					if (event.lengthComputable) {
+						progressBar.css('width', (100 * event.loaded / event.total) + '%');
+					}
+				});
+				return xhr;
+			},
 			success: function (data) {
 
 				console.log(data);
+
+				progressBar.removeClass('progress-bar-info');
+				progressBar.addClass('progress-bar-success');
+
+				$('.progress-bar').attr('id', data.webMId);
 			}
+		});
+	});
+
+	$('#save-btn').click(function (){
+
+		var metaData = {
+			name: $('#webMName').val(),
+			description: $('#webMDescription').val(),
+			fileId: $('.progress-bar').attr('id'),
+			tagsString: $('#webMTags').val(),
+			date: new Date,
+			timeZoneOffset: new Date().getTimezoneOffset()
+		};
+		$.post('/upload/meta', metaData, function(data) {
+
+			console.log(data);
 		});
 	});
 });

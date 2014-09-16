@@ -6,9 +6,10 @@ body {
     position: relative;
     margin-top: 1em;
     box-sizing: border-box;
-    margin-left: 30%;
-    margin-right: 30%;
     text-align: center;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
     border: 4px dashed #869398;
     border-radius: 20px;
     min-height: 15em;
@@ -16,4 +17,31 @@ body {
     padding-top: 7em;
     font-size: 200%;
     text-shadow: 0 0 0.03em;
+}
+
+.progress {
+    position: relative;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+}
+
+.panel {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+}
+
+.panel input, .panel textarea {
+    margin-bottom: 1em;
+    resize: none;
+}
+
+#control-buttons button {
+    position: relative;
+    float: right;
+    width: 10em;
+    margin-left: 1em;
 }

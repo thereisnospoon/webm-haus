@@ -41,6 +41,8 @@
 
 	<mongo:db-factory id="mongoDbFactory" dbname="webm" mongo-ref="mongo"/>
 
+	<mongo:repositories base-package="my.thereisnospoon.webm.entities.repos"/>
+
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory"/>
 	</bean>
