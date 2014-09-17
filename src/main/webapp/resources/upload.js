@@ -43,10 +43,11 @@ $(function() {
 		var formData = new FormData($('#file-input')[0]);
 		formData.append('file', droppedFile);
 
-		$('.progress').css('display', 'block');
+		var progress = $('.progress');
+		progress.css('display', 'block');
 		var progressBar = $('.progress-bar');
 
-		dropArea.hide('drop', {direction: 'up'}, 'slow');
+		dropArea.hide('drop', {direction: 'up'}, 'fast');
 		$('.panel').show('fold', 1000);
 
 		$.ajax({
@@ -69,10 +70,26 @@ $(function() {
 
 				console.log(data);
 
-				progressBar.removeClass('progress-bar-info');
-				progressBar.addClass('progress-bar-success');
+				setTimeout(function() {
+					progressBar.removeClass('progress-bar-info');
+					progressBar.addClass('progress-bar-success');
+				}, 300);
 
-				$('.progress-bar').attr('id', data.webMId);
+				setTimeout(function() {
+					progress.hide('drop', {direction: 'down'}, 'slow');
+				}, 600);
+
+
+				setTimeout(function() {
+
+					var webMPath = '/webm/' + data.webMId;
+					var videoElement = $('<video controls></video>');
+					var srcElement = videoElement.prepend($('<source src="' + webMPath + '" type="video/webm">'));
+					videoElement.prepend(srcElement);
+					$('.panel-body').prepend(videoElement);
+				}, 2000);
+
+				$('#control-buttons').css('display', 'block');
 			}
 		});
 	});
@@ -80,7 +97,6 @@ $(function() {
 	$('#save-btn').click(function (){
 
 		var metaData = {
-			name: $('#webMName').val(),
 			description: $('#webMDescription').val(),
 			fileId: $('.progress-bar').attr('id'),
 			tagsString: $('#webMTags').val(),

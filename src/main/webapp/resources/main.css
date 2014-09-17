@@ -21,14 +21,14 @@ body {
 
 .progress {
     position: relative;
-    width: 50%;
+    width: 30%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1em;
 }
 
 .panel {
-    width: 50%;
+    width: 30%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1em;
@@ -44,4 +44,18 @@ body {
     float: right;
     width: 10em;
     margin-left: 1em;
+}
+
+video {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+#header {
+    background-color: #9c9c9c;
+    height: 1.5em;
+}
+
+#header span {
+    margin-top: 3px;
 }

@@ -3,15 +3,13 @@
 <html>
 <head>
     <title>Upload WebM</title>
-    <link rel="stylesheet" href="/resources/main.css">
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </head>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+
+
 <script src="/resources/upload.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 <body>
+<%@include file="header.jspf"%>
 
 <div id="droparea">
     <span>Drop file here</span>
@@ -38,11 +36,10 @@
 		<h3 class="panel-title">WebM parameters</h3>
 	</div>
 	<div class="panel-body">
-		<input id="webMName" type="text" class="form-control" placeholder="WebM name">
 		<textarea id="webMDescription" class="form-control" placeholder="Description"></textarea>
 		<input id="webMTags" type="text" class="form-control" placeholder="Tags">
 
-		<div id="control-buttons">
+		<div id="control-buttons" style="display: none">
 			<button type="button" id="save-btn" data-loading-text="Saving" class="btn btn-primary">Save</button>
 			<button type="button" id="cancel-btn" class="btn btn-default">Cancel</button>
 		</div>

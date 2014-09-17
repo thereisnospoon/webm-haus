@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -15,14 +16,12 @@ public class WebMPost {
 	@Id
 	private String id;
 
-	private String name;
 	private String description;
-	private BigInteger size;
 	private String previewId;
 	private String fileId;
 	private ZonedDateTime postedWhen;
 	private User postedBy;
-	private Set<String> tags;
+	private Set<String> tags = new HashSet<>();
 	private Long likesCounter;
 	private Long viewsCounter;
 	private List<Comment> topComemnts = new LinkedList<>();
@@ -36,28 +35,12 @@ public class WebMPost {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public BigInteger getSize() {
-		return size;
-	}
-
-	public void setSize(BigInteger size) {
-		this.size = size;
 	}
 
 	public String getPreviewId() {
@@ -90,5 +73,9 @@ public class WebMPost {
 
 	public void setPostedBy(User postedBy) {
 		this.postedBy = postedBy;
+	}
+
+	public Set<String> getTags() {
+		return tags;
 	}
 }
