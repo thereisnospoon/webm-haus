@@ -6,7 +6,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/webm-config.xml
+			classpath:my/thereisnospoon/webm/webm-config.xml
 		</param-value>
 	</context-param>
 
