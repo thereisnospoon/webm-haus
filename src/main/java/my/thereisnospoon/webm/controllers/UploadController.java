@@ -56,8 +56,7 @@ public class UploadController {
 
 		log.debug("Posted when = {}; timeZoneOffset = {}", date, timeZoneOffset);
 
-		webMPost.setPostedWhen(ZonedDateTime
-				.ofInstant(Instant.ofEpochMilli(date.getTime()), ZoneId.of("+" + (-timeZoneOffset/60))));
+		webMPost.setPostedWhen(ZonedDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()), ZoneId.of("+" + (-timeZoneOffset/60))));
 
 		log.debug("Posted when: {}", webMPost.getPostedWhen());
 
