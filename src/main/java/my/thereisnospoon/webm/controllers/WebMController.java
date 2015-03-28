@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 public class WebMController {
 
 	private static final Logger log = LoggerFactory.getLogger(WebMController.class);
+
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
 	private static Pattern pattern = Pattern.compile("\\d+");
