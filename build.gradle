@@ -16,12 +16,11 @@ dependencies {
             'com.fasterxml.jackson.core:jackson-databind:2.4.2',
             'javax.servlet:jstl:1.2',
             'org.apache.commons:commons-lang3:3.3.2',
-            'org.imgscalr:imgscalr-lib:4.2',
-            'commons-io:commons-io:2.4'
+            'commons-io:commons-io:2.4',
+		    'commons-codec:commons-codec:1.10'
 
-    testCompile "org.springframework:spring-test:${spring_version}",
-            'junit:junit:4.11',
-            'org.mockito:mockito-all:1.9.5',
+	testCompile 'junit:junit:4.11',
+		    'org.mockito:mockito-all:1.9.5',
             'javax.el:javax.el-api:2.2.4',
             'org.glassfish.web:javax.el:2.2.4'
 }
