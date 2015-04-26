@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 
 import static org.junit.Assert.*;
 
@@ -21,14 +20,15 @@ public class FFMPEGServiceTest {
 
 	private static FFMPEGService ffmpegService;
 
-	private static final String FFMPEG_PATH = "E:\\X-Files\\ffmpeg-20150425-git-a3110be-win64-static\\bin";
+	private static final String FFMPEG_PATH = "E:\\X-Files\\ffmpeg-20150425-git-a3110be-win64-static\\bin\\ffmpeg.exe";
+	private static final String FFPROBE_PATH = "E:\\X-Files\\ffmpeg-20150425-git-a3110be-win64-static\\bin\\ffprobe.exe";
 	private static final String THUMBNAIL_FOLDER = "E:\\Sources\\webm-haus\\build\\tmp";
 	private static final String TEST_VIDEO_PATH = "src\\test\\resources\\test.webm";
 
 	@BeforeClass
 	public static void setUp() {
 		Assume.assumeTrue(new File(FFMPEG_PATH).exists());
-		ffmpegService = new FFMPEGService(FFMPEG_PATH, THUMBNAIL_FOLDER);
+		ffmpegService = new FFMPEGService(FFMPEG_PATH, FFPROBE_PATH, THUMBNAIL_FOLDER);
 	}
 
 	@Test

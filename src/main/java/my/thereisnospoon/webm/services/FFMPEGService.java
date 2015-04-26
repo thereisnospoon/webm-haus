@@ -3,6 +3,7 @@ package my.thereisnospoon.webm.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -23,16 +24,18 @@ public class FFMPEGService {
 	private static final Logger log = LoggerFactory.getLogger(FFMPEGService.class);
 
 	private static final Pattern DURATION_PATTERN = Pattern.compile("Duration: (\\d{2}):(\\d{2}):(\\d{2})");
-	private static final String FFMPEG = File.separator + "ffmpeg";
-	private static final String FFPROBE = File.separator + "ffprobe";
 
-	private String fffmpegLocation;
+	private String ffmpegLocation;
+	private String ffprobeLocation;
 	private String thumbnailLocation;
 
 	@Autowired
-	public FFMPEGService(String fffmpegLocation, String thumbnailLocation) {
+	public FFMPEGService(@Value("${ffmpeg}") String ffmpegLocation,
+	                     @Value("$ffprobe") String ffprobeLocation,
+	                     @Value("${thumbnail_location}") String thumbnailLocation) {
 
-		this.fffmpegLocation = fffmpegLocation;
+		this.ffmpegLocation = ffmpegLocation;
+		this.ffprobeLocation = ffprobeLocation;
 		this.thumbnailLocation = thumbnailLocation;
 	}
 
@@ -46,7 +49,7 @@ public class FFMPEGService {
 
 		log.debug("Trying to get duration of {}", videoFilePath);
 
-		ProcessBuilder processBuilder = new ProcessBuilder(fffmpegLocation + FFPROBE, "-i", videoFilePath);
+		ProcessBuilder processBuilder = new ProcessBuilder(ffprobeLocation, "-i", videoFilePath);
 		Optional<Integer> extractedDuration = new BufferedReader(new InputStreamReader(processBuilder.start()
 				.getErrorStream())).lines()
 				.peek(line -> log.debug("{}", line))
@@ -85,7 +88,7 @@ public class FFMPEGService {
 		log.debug("Trying to get thumbnail for: {}", videoFilePath);
 
 		String outputImageAbsolutePath = thumbnailLocation + File.separator + videoHash + ".png";
-		ProcessBuilder processBuilder = new ProcessBuilder(fffmpegLocation + FFMPEG,
+		ProcessBuilder processBuilder = new ProcessBuilder(ffmpegLocation,
 				"-i", videoFilePath, "-s", "320x180", "-frames:v", "1", outputImageAbsolutePath);
 
 		Optional<String> output = new BufferedReader(new InputStreamReader(processBuilder.start().getErrorStream()))
