@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.TemporalUnit;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +42,11 @@ public class FFMPEGServiceTest {
 	@Test
 	public void testGetThumbnail() throws Exception {
 
+		Instant start = Instant.now();
 		String md5 = DigestUtils.md5Hex(new FileInputStream(TEST_VIDEO_PATH));
+
+		log.debug("MD5 hash generated in {} ms", Duration.between(start, Instant.now()).toMillis());
+
 		ffmpegService.getThumbnail(TEST_VIDEO_PATH, md5);
 	}
 }
