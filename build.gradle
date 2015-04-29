@@ -4,14 +4,14 @@ repositories {
     mavenCentral()
 }
 
-def spring_version = '4.0.6.RELEASE'
+def spring_version = '4.1.4.RELEASE'
 
 dependencies {
     compile 'org.slf4j:slf4j-log4j12:1.7.7',
             'javax.servlet:javax.servlet-api:3.1.0',
             "org.springframework:spring-context:${spring_version}",
             "org.springframework:spring-webmvc:${spring_version}",
-            'org.springframework.data:spring-data-mongodb:1.6.2.RELEASE',
+		    'org.springframework.data:spring-data-mongodb:1.7.0.RELEASE',
             'com.fasterxml.jackson.core:jackson-databind:2.4.2',
             'javax.servlet:jstl:1.2',
             'org.apache.commons:commons-lang3:3.3.2',

@@ -40,7 +40,12 @@
 
 	<mongo:mapping-converter id="converter"/>
 
-	<mongo:db-factory id="mongoDbFactory" dbname="webm" mongo-ref="mongo"/>
+	<mongo:db-factory id="mongoDbFactory"
+	                  dbname="webm"
+	                  mongo-ref="mongo"
+	                  authentication-dbname="webm"
+	                  username="system_user"
+	                  password="n0age"/>
 
 	<mongo:repositories base-package="my.thereisnospoon.webm.entities.repos"/>
 

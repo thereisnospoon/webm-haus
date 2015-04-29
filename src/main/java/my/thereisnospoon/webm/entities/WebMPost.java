@@ -16,6 +16,7 @@ public class WebMPost {
 	@Id
 	private String id;
 
+	private String name;
 	private String description;
 	private String previewId;
 	private String fileId;
@@ -77,5 +78,13 @@ public class WebMPost {
 
 	public Set<String> getTags() {
 		return tags;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

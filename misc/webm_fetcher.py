@@ -2,8 +2,8 @@ from urllib import request
 from urllib import parse
 import re
 
-output_folder = 'C:\\Users\\nagrizolich\\Desktop\\webms\\'
-url = "https://2ch.hk/b/res/91727737.html"
+output_folder = 'C:\\Users\\nagrizolich\\Desktop\\webms2\\'
+url = "https://2ch.hk/b/res/91773629.html"
 parsed_url = parse.urlparse(url)
 host = parsed_url.scheme + '://' + parsed_url.netloc
 

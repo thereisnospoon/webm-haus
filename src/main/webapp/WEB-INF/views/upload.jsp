@@ -5,11 +5,9 @@
     <title>Upload WebM</title>
 </head>
 
-
-<script src="/resources/upload.js"></script>
-
 <body>
 <%@include file="header.jspf"%>
+<script src="/resources/upload.js"></script>
 
 <div id="droparea">
     <span>Drop file here</span>
