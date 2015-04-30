@@ -21,6 +21,7 @@ public class WebMPost {
 	private String previewId;
 	private String fileId;
 	private ZonedDateTime postedWhen;
+	private int duration;
 	private User postedBy;
 	private Set<String> tags = new HashSet<>();
 	private Long likesCounter;
@@ -86,5 +87,13 @@ public class WebMPost {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 }

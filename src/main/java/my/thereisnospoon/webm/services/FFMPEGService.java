@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -28,12 +26,15 @@ public class FFMPEGService {
 	private String ffmpegLocation;
 	private String ffprobeLocation;
 	private String thumbnailLocation;
+	private String tempFolderLocation;
 
 	@Autowired
 	public FFMPEGService(@Value("${ffmpeg}") String ffmpegLocation,
 	                     @Value("$ffprobe") String ffprobeLocation,
-	                     @Value("${thumbnail_location}") String thumbnailLocation) {
+	                     @Value("${thumbnail_location}") String thumbnailLocation,
+	                     @Value("$temp_files_location") String tempFolderLocation) {
 
+		this.tempFolderLocation = tempFolderLocation;
 		this.ffmpegLocation = ffmpegLocation;
 		this.ffprobeLocation = ffprobeLocation;
 		this.thumbnailLocation = thumbnailLocation;
@@ -107,5 +108,48 @@ public class FFMPEGService {
             }
             return thumbnail;
         }
+	}
+
+	/**
+	 * Creates file in temporary folder
+	 * @param fileData  file binary data
+	 * @param hash  file's md5 hash that is being used as file name
+	 * @return  absolute path to created path
+	 * @throws IOException
+	 */
+	public String saveFileInTempFolder(byte[] fileData, String hash) throws IOException {
+
+		File tempFile = new File(tempFolderLocation, hash);
+		if (tempFile.exists()) {
+
+			log.debug("File {}/{} already exists and will be removed", tempFolderLocation, hash);
+
+			boolean isDeleted = tempFile.delete();
+
+			log.debug("Deletion result: {}", isDeleted);
+		}
+		try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(tempFile))) {
+			outputStream.write(fileData);
+		}
+		return tempFile.getAbsolutePath();
+	}
+
+	/**
+	 * Deletes file from temp folder
+	 * @param fileHash  file's md5 hash that is being used as file name
+	 * @return  true if deletion was successful
+	 * @throws IOException
+	 */
+	public boolean deleteFileFromTempFolder(String fileHash) throws IOException {
+
+		File tempFile = new File(tempFolderLocation, fileHash);
+		if (tempFile.exists()) {
+			return tempFile.delete();
+		} else {
+
+			log.debug("File {} doesn't exist", tempFile.getAbsolutePath());
+
+			return false;
+		}
 	}
 }
