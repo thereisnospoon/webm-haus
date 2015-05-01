@@ -34,6 +34,7 @@
 		<h3 class="panel-title">WebM parameters</h3>
 	</div>
 	<div class="panel-body">
+		<input id="webMName" type="text" class="form-control" placeholder="Name of the video">
 		<textarea id="webMDescription" class="form-control" placeholder="Description"></textarea>
 		<input id="webMTags" type="text" class="form-control" placeholder="Tags">
 

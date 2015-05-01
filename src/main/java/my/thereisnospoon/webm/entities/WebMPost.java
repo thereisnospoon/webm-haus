@@ -3,7 +3,6 @@ package my.thereisnospoon.webm.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -95,5 +94,24 @@ public class WebMPost {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	@Override
+	public String toString() {
+		return "WebMPost{" +
+				"id='" + id + '\'' +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", previewId='" + previewId + '\'' +
+				", fileId='" + fileId + '\'' +
+				", postedWhen=" + postedWhen +
+				", duration=" + duration +
+				", postedBy=" + postedBy +
+				", tags=" + tags +
+				", likesCounter=" + likesCounter +
+				", viewsCounter=" + viewsCounter +
+				", topComemnts=" + topComemnts +
+				", additionalComments=" + additionalComments +
+				'}';
 	}
 }

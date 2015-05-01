@@ -1,6 +1,7 @@
 package my.thereisnospoon.webm.controllers;
 
 import com.mongodb.gridfs.GridFSFile;
+import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.WebMPost;
 import my.thereisnospoon.webm.entities.repos.WebMRepository;
 import my.thereisnospoon.webm.services.FFMPEGService;
@@ -9,11 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +34,6 @@ public class UploadController {
 
 	private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
-	private static final Pattern HASH_TAGS_PATTERN = Pattern.compile("\\w+");
 	private static final String SESSION_ID_ATTRIBUTE = "SESSION_ID_ATTRIBUTE";
 
 	private WebMRepository webMRepository;
@@ -57,7 +55,7 @@ public class UploadController {
 	}
 
 	/**
-	 * Returns empty WebMPost as json in case when this file is already exists in DB
+	 * Returns empty WebMPost as json in case when this file already exists in DB
 	 * @param file
 	 * @return
 	 * @throws IOException
@@ -95,7 +93,6 @@ public class UploadController {
 		webMPost.setFileId(storedFile.getId().toString());
 		webMPost.setPreviewId(thumbnailFile.getId().toString());
 		webMPost.setDuration(videoDuration);
-		webMPost.setPostedWhen(ZonedDateTime.now());
 
 		// this attribute will be used to identify session during which webm was uploaded
 		request.getSession().setAttribute(SESSION_ID_ATTRIBUTE, request.getSession().getId());
@@ -103,24 +100,20 @@ public class UploadController {
 		return webMPost;
 	}
 
-	@RequestMapping(value = "meta", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/meta",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public WebMPost uploadMetaData(HttpServletRequest request, @RequestParam WebMPost webMPost) {
+	public WebMPost uploadMetaData(HttpServletRequest request, @RequestBody WebMPost webMPost) {
+
+		log.debug("Got metadata:\n{}", webMPost);
 
 		if (!Objects.equals(request.getSession().getAttribute(SESSION_ID_ATTRIBUTE), request.getSession().getId())) {
 			throw new IllegalStateException("Upload and meta-data submission sessions are different");
 		}
 
+		webMPost.setPostedWhen(ZonedDateTime.now());
+
 		return webMRepository.save(webMPost);
-	}
-
-	private Set<String> parseTags(String tagsString) {
-
-		Set<String> tags = new HashSet<>();
-		Matcher matcher = HASH_TAGS_PATTERN.matcher(tagsString);
-		while (matcher.find()) {
-			tags.add(matcher.group());
-		}
-		return tags;
 	}
 }

@@ -1,14 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<title>Upload WebM</title>
 <link rel="stylesheet" href="/resources/main.css">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link href='http://fonts.googleapis.com/css?family=Lily+Script+One' rel='stylesheet' type='text/css'>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 <div id="header">
-    <span class="glyphicon glyphicon-home"></span>
+    <span id="home-logo">webm-haus</span>
+	<ul class="search-group">
+		<li><input id="search-field" type="text"  placeholder="Search">
+		<li><button id="search-button" class="glyphicon glyphicon-search"></button>
+	</ul>
 </div>

@@ -1,61 +1,111 @@
 body {
-    background: #a8b8bf url('/resources/noise.png');
+	background: #a8b8bf url('/resources/noise.png');
 }
 
 #droparea {
-    position: relative;
-    margin-top: 1em;
-    box-sizing: border-box;
-    text-align: center;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    border: 4px dashed #869398;
-    border-radius: 20px;
-    min-height: 15em;
-    max-height: 15em;
-    padding-top: 7em;
-    font-size: 200%;
-    text-shadow: 0 0 0.03em;
+	position: relative;
+	margin-top: 1em;
+	box-sizing: border-box;
+	text-align: center;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 4px dashed #869398;
+	border-radius: 20px;
+	min-height: 15em;
+	max-height: 15em;
+	padding-top: 7em;
+	font-size: 200%;
+	text-shadow: 0 0 0.03em;
 }
 
 .progress {
-    position: relative;
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
+	position: relative;
+	width: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1em;
 }
 
 .panel {
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
+	width: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1em;
 }
 
 .panel input, .panel textarea {
-    margin-bottom: 1em;
-    resize: none;
+	margin-bottom: 1em;
+	resize: none;
 }
 
 #control-buttons button {
-    position: relative;
-    float: right;
-    width: 10em;
-    margin-left: 1em;
+	position: relative;
+	float: right;
+	width: 10em;
+	margin-left: 1em;
 }
 
 video {
-    width: 100%;
-    margin-bottom: 1em;
+	width: 100%;
+	margin-bottom: 1em;
 }
 
 #header {
-    background-color: #9c9c9c;
-    height: 1.5em;
+	background-color: #C4A77D;
+	height: 3em;
 }
 
-#header span {
-    margin-top: 3px;
+#home-logo {
+	margin-left: 0.3em;
+	font-family: 'Lily Script One', cursive;
+	font-size: 2.2em;
+	position: relative;
+	float: left;
+}
+
+.search-group {
+	position: relative;
+	float: right;
+	margin-right: 2em;
+	padding-top: 0.4em;
+}
+
+#header li {
+	display: inline-block;
+}
+
+#search-field {
+	border-style: none;
+	font-size: 1em;
+	width: 30em;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	background-color: #F4EDE3;
+	height: 2em;
+}
+
+#search-button {
+	background-color: #BCD979;
+	height: 2em;
+	width: 4em;
+	border: none;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+#search-button:hover {
+	background-color: #66AD40;
+}
+
+#header ::-webkit-input-placeholder {
+	padding-left: 1em;
+}
+
+#header ::-moz-placeholder {
+	padding-left: 1em;
+}
+
+#header :-ms-input-placeholder {
+	padding-left: 1em;
 }

@@ -3,6 +3,10 @@ $(function() {
 	var MAX_FILE_SIZE = 1024*1024*20;
 
 	var dropArea = $('#droparea');
+	var webmPostAttrs = ['_id', 'name', 'description', 'previewId', 'fileId', 'postedWhen', 'duration', 'postedBy',
+		'tags'];
+
+	var currentWebm = {};
 
 	dropArea.on("dragstart dragenter dragover dragleave drag drop dragend", function(event) {
 
@@ -48,7 +52,6 @@ $(function() {
 		var progressBar = $('.progress-bar');
 
 		dropArea.hide('drop', {direction: 'up'}, 'fast');
-		$('.panel').show('fold', 1000);
 
 		$.ajax({
 			type: 'POST',
@@ -82,30 +85,50 @@ $(function() {
 
 				setTimeout(function() {
 
-					var webMPath = '/webm/' + data.webMId;
+					if (!data.fileId) {
+
+						console.log('Emtpy response is returned');
+
+						return
+					}
+
+					for (var i in webmPostAttrs) {
+						currentWebm[webmPostAttrs[i]] = data[webmPostAttrs[i]];
+					}
+
+					var webMPath = '/webm/data/' + data.fileId;
 					var videoElement = $('<video controls></video>');
 					var srcElement = videoElement.prepend($('<source src="' + webMPath + '" type="video/webm">'));
 					videoElement.prepend(srcElement);
 					$('.panel-body').prepend(videoElement);
 				}, 2000);
 
-				$('#control-buttons').css('display', 'block');
+				if (data.fileId) {
+					$('.panel').show('fold', 1000);
+					$('#control-buttons').css('display', 'block');
+				}
 			}
 		});
 	});
 
 	$('#save-btn').click(function (){
 
-		var metaData = {
-			description: $('#webMDescription').val(),
-			fileId: $('.progress-bar').attr('id'),
-			tagsString: $('#webMTags').val(),
-			date: new Date,
-			timeZoneOffset: new Date().getTimezoneOffset()
-		};
-		$.post('/upload/meta', metaData, function(data) {
+		currentWebm['description'] = $('#webMDescription').val();
+		currentWebm['tags'] = $('#webMTags').val().split(', ');
+		currentWebm['name'] = $('#webMName').val();
 
-			console.log(data);
-		});
+		console.log('Sending meta-data:');
+		console.log(currentWebm);
+
+		$.ajax({
+			type: 'POST',
+			contentType: 'application/json',
+			url: '/upload/meta',
+			data: JSON.stringify(currentWebm),
+			success: function(data) {
+
+				console.log('Metadata posted successfully')
+			}
+		})
 	});
 });

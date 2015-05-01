@@ -27,7 +27,7 @@ dependencies {
 	testRuntime 'org.slf4j:slf4j-log4j12:1.7.12'
 }
 
-task copyToDeploymentFolder(type: Copy, dependsOn: war) {
+task copyToDeploymentFolder(type: Copy, dependsOn: ['clean', 'war']) {
 	from 'build/libs'
 	into localDeploymentFolder
 	include ('*.war')
