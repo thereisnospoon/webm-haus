@@ -7,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ApplicationInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-	public enum OS {
+	private enum OS {
 
 		WINDOWS {
 

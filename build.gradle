@@ -5,6 +5,7 @@ repositories {
 }
 
 def spring_version = '4.1.4.RELEASE'
+def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-web-9.0.0.Beta2\\standalone\\deployments'
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.12',
@@ -24,4 +25,10 @@ dependencies {
             'org.glassfish.web:javax.el:2.2.4'
 
 	testRuntime 'org.slf4j:slf4j-log4j12:1.7.12'
+}
+
+task copyToDeploymentFolder(type: Copy, dependsOn: war) {
+	from 'build/libs'
+	into localDeploymentFolder
+	include ('*.war')
 }

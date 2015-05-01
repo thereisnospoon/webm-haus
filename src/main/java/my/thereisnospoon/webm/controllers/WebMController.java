@@ -5,8 +5,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -20,6 +18,9 @@ import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.gridfs.GridFsCriteria.where;
+
 @Controller
 @RequestMapping("/webm")
 public class WebMController {
@@ -28,16 +29,34 @@ public class WebMController {
 
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
-	private static Pattern pattern = Pattern.compile("\\d+");
+	private static Pattern DIGITS_PATTERN = Pattern.compile("\\d+");
 
 	@Autowired
 	private GridFsTemplate gridFsTemplate;
 
-	@RequestMapping(value = "/{webmId}", method = RequestMethod.GET)
-	public void getWebM(HttpServletRequest request, HttpServletResponse response, @PathVariable String webmId)
+	@RequestMapping(value = "/preview/{previewId}", method = RequestMethod.GET)
+	public void getPreview(HttpServletResponse response, @PathVariable String previewId) throws IOException {
+
+		GridFSDBFile file = gridFsTemplate.findOne(query(where("_id").is(previewId)
+				.and("contentType").is("image")));
+
+		if (file == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		response.setContentType("image/png");
+		response.setContentLength((int) file.getLength());
+		response.setHeader("ETag", file.getMD5());
+		IOUtils.copy(file.getInputStream(), response.getOutputStream());
+	}
+
+	@RequestMapping(value = "/data/{fileId}", method = RequestMethod.GET)
+	public void getWebM(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileId)
 			throws Exception {
 
-		GridFSDBFile file = gridFsTemplate.findOne(Query.query(GridFsCriteria.where("_id").is(webmId)));
+		GridFSDBFile file = gridFsTemplate.findOne(query(where("_id").is(fileId)
+				.and("contentType").is("video")));
 
 		if (file == null) {
 
@@ -73,7 +92,7 @@ public class WebMController {
 	private long[] parseRange(String range, long fileLength) {
 
 		long[] bounds = new long[2];
-		Matcher matcher = pattern.matcher(range);
+		Matcher matcher = DIGITS_PATTERN.matcher(range);
 		if (matcher.find()) {
 			bounds[0] = Long.parseLong(matcher.group());
 		}
