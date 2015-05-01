@@ -30,14 +30,18 @@ public class FFMPEGService {
 
 	@Autowired
 	public FFMPEGService(@Value("${ffmpeg}") String ffmpegLocation,
-	                     @Value("$ffprobe") String ffprobeLocation,
+	                     @Value("${ffprobe}") String ffprobeLocation,
 	                     @Value("${thumbnail_location}") String thumbnailLocation,
-	                     @Value("$temp_files_location") String tempFolderLocation) {
+	                     @Value("${temp_files_location}") String tempFolderLocation) {
 
 		this.tempFolderLocation = tempFolderLocation;
 		this.ffmpegLocation = ffmpegLocation;
 		this.ffprobeLocation = ffprobeLocation;
 		this.thumbnailLocation = thumbnailLocation;
+
+		log.debug("FFMPEG Service constructed with: ffmpegLocation = {}; " +
+				"ffprobeLocation = {}; thumbnailLocation = {}; tempFolderLocation = {}",
+				ffmpegLocation, ffprobeLocation, thumbnailLocation, tempFolderLocation);
 	}
 
 	/**

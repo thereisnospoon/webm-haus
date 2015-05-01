@@ -24,11 +24,12 @@ public class FFMPEGServiceTest {
 	private static final String FFPROBE_PATH = "E:\\X-Files\\ffmpeg-20150425-git-a3110be-win64-static\\bin\\ffprobe.exe";
 	private static final String THUMBNAIL_FOLDER = "E:\\Sources\\webm-haus\\build\\tmp";
 	private static final String TEST_VIDEO_PATH = "src\\test\\resources\\test.webm";
+	private static final String TEMP_FOLDER_LOCATION = "";
 
 	@BeforeClass
 	public static void setUp() {
 		Assume.assumeTrue(new File(FFMPEG_PATH).exists());
-		ffmpegService = new FFMPEGService(FFMPEG_PATH, FFPROBE_PATH, THUMBNAIL_FOLDER);
+		ffmpegService = new FFMPEGService(FFMPEG_PATH, FFPROBE_PATH, THUMBNAIL_FOLDER, TEMP_FOLDER_LOCATION);
 	}
 
 	@Test

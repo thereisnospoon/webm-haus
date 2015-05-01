@@ -18,7 +18,6 @@
 	<mvc:annotation-driven/>
 	<mvc:resources mapping="/resources/**" location="/resources/"/>
 	<context:component-scan base-package="my.thereisnospoon.webm"/>
-	<context:property-placeholder location="classpath:application.properties"/>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -57,4 +56,12 @@
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="converter" />
 	</bean>
+
+	<beans profile="windows">
+		<context:property-placeholder location="classpath:windows.application.properties"/>
+	</beans>
+
+	<beans profile="linux">
+		<context:property-placeholder location="classpath:linux.application.properties"/>
+	</beans>
 </beans>

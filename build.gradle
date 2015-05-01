@@ -22,4 +22,6 @@ dependencies {
 		    'org.mockito:mockito-all:1.9.5',
             'javax.el:javax.el-api:2.2.4',
             'org.glassfish.web:javax.el:2.2.4'
+
+	testRuntime 'org.slf4j:slf4j-log4j12:1.7.12'
 }

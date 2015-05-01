@@ -103,5 +103,6 @@ public class WebMController {
 			bytesToWrite -= read;
 			outputStream.write(buffer, 0, read);
 		}
+		inputStream.close();
 	}
 }
