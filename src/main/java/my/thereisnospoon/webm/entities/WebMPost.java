@@ -3,11 +3,7 @@ package my.thereisnospoon.webm.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Document(collection = "webms")
 public class WebMPost {
@@ -19,7 +15,8 @@ public class WebMPost {
 	private String description;
 	private String previewId;
 	private String fileId;
-	private ZonedDateTime postedWhen;
+	private Date postedWhen;
+	private int timezoneOffset;
 	private int duration;
 	private User postedBy;
 	private Set<String> tags = new HashSet<>();
@@ -60,11 +57,11 @@ public class WebMPost {
 		this.fileId = fileId;
 	}
 
-	public ZonedDateTime getPostedWhen() {
+	public Date getPostedWhen() {
 		return postedWhen;
 	}
 
-	public void setPostedWhen(ZonedDateTime postedWhen) {
+	public void setPostedWhen(Date postedWhen) {
 		this.postedWhen = postedWhen;
 	}
 
@@ -96,6 +93,14 @@ public class WebMPost {
 		this.duration = duration;
 	}
 
+	public int getTimezoneOffset() {
+		return timezoneOffset;
+	}
+
+	public void setTimezoneOffset(int timezoneOffset) {
+		this.timezoneOffset = timezoneOffset;
+	}
+
 	@Override
 	public String toString() {
 		return "WebMPost{" +
@@ -105,6 +110,7 @@ public class WebMPost {
 				", previewId='" + previewId + '\'' +
 				", fileId='" + fileId + '\'' +
 				", postedWhen=" + postedWhen +
+				", timezoneOffset=" + timezoneOffset +
 				", duration=" + duration +
 				", postedBy=" + postedBy +
 				", tags=" + tags +

@@ -62,7 +62,14 @@ video {
 	font-size: 2.2em;
 	position: relative;
 	float: left;
+	color: #4C4B45
 }
+
+#home-logo:hover {
+	text-decoration: none;
+	color: #339989;
+}
+
 
 .search-group {
 	position: relative;

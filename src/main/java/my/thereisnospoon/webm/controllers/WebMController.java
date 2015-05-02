@@ -1,20 +1,22 @@
 package my.thereisnospoon.webm.controllers;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import my.thereisnospoon.webm.entities.WebMPost;
+import my.thereisnospoon.webm.entities.repos.WebMRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +36,18 @@ public class WebMController {
 	@Autowired
 	private GridFsTemplate gridFsTemplate;
 
+	@Autowired
+	private WebMRepository webMRepository;
+
+	@RequestMapping(value = "list")
+	@ResponseBody
+	public List<WebMPost> getWebMs(Pageable page) {
+
+		log.debug("Getting webms with following pageable: {}", page);
+
+		return webMRepository.getSliceWebMs(page).getContent();
+	}
+
 	@RequestMapping(value = "/preview/{previewId}", method = RequestMethod.GET)
 	public void getPreview(HttpServletResponse response, @PathVariable String previewId) throws IOException {
 
@@ -52,7 +66,7 @@ public class WebMController {
 	}
 
 	@RequestMapping(value = "/data/{fileId}", method = RequestMethod.GET)
-	public void getWebM(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileId)
+	public void getWebMData(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileId)
 			throws Exception {
 
 		GridFSDBFile file = gridFsTemplate.findOne(query(where("_id").is(fileId)

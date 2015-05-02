@@ -1,7 +1,6 @@
 package my.thereisnospoon.webm.controllers;
 
 import com.mongodb.gridfs.GridFSFile;
-import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.WebMPost;
 import my.thereisnospoon.webm.entities.repos.WebMRepository;
 import my.thereisnospoon.webm.services.FFMPEGService;
@@ -19,11 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -112,7 +108,8 @@ public class UploadController {
 			throw new IllegalStateException("Upload and meta-data submission sessions are different");
 		}
 
-		webMPost.setPostedWhen(ZonedDateTime.now());
+		webMPost.setPostedWhen(new Date());
+		webMPost.setTimezoneOffset(ZonedDateTime.now().getOffset().getTotalSeconds());
 
 		return webMRepository.save(webMPost);
 	}
