@@ -20,8 +20,8 @@ public class WebMPost {
 	private int duration;
 	private User postedBy;
 	private Set<String> tags = new HashSet<>();
-	private Long likesCounter;
-	private Long viewsCounter;
+	private long likesCounter;
+	private long viewsCounter;
 	private List<Comment> topComemnts = new LinkedList<>();
 	private List<CommentsChunk> additionalComments = new LinkedList<>();
 
@@ -99,6 +99,22 @@ public class WebMPost {
 
 	public void setTimezoneOffset(int timezoneOffset) {
 		this.timezoneOffset = timezoneOffset;
+	}
+
+	public long getLikesCounter() {
+		return likesCounter;
+	}
+
+	public void setLikesCounter(long likesCounter) {
+		this.likesCounter = likesCounter;
+	}
+
+	public long getViewsCounter() {
+		return viewsCounter;
+	}
+
+	public void setViewsCounter(long viewsCounter) {
+		this.viewsCounter = viewsCounter;
 	}
 
 	@Override

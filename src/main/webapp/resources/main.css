@@ -1,10 +1,10 @@
 body {
-	background: #a8b8bf url('/resources/noise.png');
+	background: url('/resources/noise.png');
 }
 
 #droparea {
 	position: relative;
-	margin-top: 1em;
+	margin-top: 7%;
 	box-sizing: border-box;
 	text-align: center;
 	width: 50%;
@@ -52,8 +52,13 @@ video {
 }
 
 #header {
+	position: fixed;
+	z-index: 3;
+	width: 100%;
+	top: 0;
 	background-color: #C4A77D;
 	height: 3em;
+	box-shadow: 0 2px 2px #7C6A4F;
 }
 
 #home-logo {
@@ -67,7 +72,8 @@ video {
 
 #home-logo:hover {
 	text-decoration: none;
-	color: #339989;
+	text-shadow: 0px 0px 0.1px;
+	color: #04724D;
 }
 
 
@@ -90,6 +96,7 @@ video {
 	border-bottom-left-radius: 5px;
 	background-color: #F4EDE3;
 	height: 2em;
+	text-indent: 10px;
 }
 
 #search-button {
@@ -105,14 +112,89 @@ video {
 	background-color: #66AD40;
 }
 
-#header ::-webkit-input-placeholder {
-	padding-left: 1em;
+#videos-container {
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+	margin-top: 4em;
 }
 
-#header ::-moz-placeholder {
-	padding-left: 1em;
+#videos-container table {
+	margin-left: auto;
+	margin-right: auto;
 }
 
-#header :-ms-input-placeholder {
-	padding-left: 1em;
+#videos-container tr {
+	display: block;
+	margin-top: 2em;
+}
+
+#videos-container td {
+	padding-right: 0.8em;
+	padding-left: 0.8em;
+}
+
+#videos-container img {
+	width: 250px;
+}
+
+.webm-preview {
+	position: relative;
+	width: 270px;
+	height: 200px;
+}
+
+.webm-name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #88897A;
+	opacity: 0;
+	position: absolute;
+	display: block;
+	top: 4px;
+	left: 10px;
+	width: 260px;
+	height: 30px;
+	text-align: center;
+	z-index: 1;
+}
+
+.webm-preview a {
+	box-shadow: 0 0 5px grey;
+	background-color: #F9FFEA;
+	display: block;
+	position: absolute;
+	top: 25px;
+	left: 10px;
+	transition: all 0.1s;
+	border-radius: 5px;
+	padding: 5px;
+	margin: -5px;
+	border: solid 1px #EFEFF0;
+}
+
+.webm-preview:hover .webm-stats, .webm-preview:hover .webm-name {
+	opacity: 1;
+}
+
+.webm-preview:hover a {
+	padding: 27px 15px;
+	margin: -27px -15px;
+}
+
+.webm-stats {
+	list-style-type: none;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	opacity: 0;
+	color: #88897A;
+	font-size: 0.9em;
+}
+
+.webm-stats li {
+	display: inline-block;
+	width: 40%;
+	text-align: center;
 }
