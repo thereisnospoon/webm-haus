@@ -19,22 +19,21 @@ body {
 	text-shadow: 0 0 0.03em;
 }
 
-.progress {
-	position: relative;
+#webm-upload-progress {
+	position: fixed;
+	width: 30%;
+	left: 35%;
+	top: 40%;
+}
+
+#webm-params {
 	width: 30%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 1em;
+	margin-top: 5%;
 }
 
-.panel {
-	width: 30%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 1em;
-}
-
-.panel input, .panel textarea {
+#webm-params input, .panel textarea {
 	margin-bottom: 1em;
 	resize: none;
 }
@@ -197,4 +196,9 @@ video {
 	display: inline-block;
 	width: 40%;
 	text-align: center;
+}
+
+#webm-view .modal-content {
+	margin-top: 30%;
+	background-color: black;
 }

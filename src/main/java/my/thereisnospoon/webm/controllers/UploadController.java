@@ -45,11 +45,6 @@ public class UploadController {
 		this.ffmpegService = ffmpegService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String uploadPage() {
-		return "upload";
-	}
-
 	/**
 	 * Returns empty WebMPost as json in case when this file already exists in DB
 	 * @param file

@@ -7,7 +7,6 @@
 
 <body>
 <%@include file="header.jspf"%>
-<script src="/resources/upload.js"></script>
 
 <div id="droparea">
     <span>Drop file here</span>
@@ -29,7 +28,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="panel panel-default" style="display: none">
+<div id="webm-params" class="panel panel-default" style="display: none">
 	<div class="panel-heading">
 		<h3 class="panel-title">WebM parameters</h3>
 	</div>
@@ -47,8 +46,8 @@
 
 <input type="hidden" id="file-input">
 
-<div class="progress" style="display: none">
-	<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+<div id="webm-upload-progress" class="progress" style="display: none">
+	<div class="progress-bar progress-bar-info" role="progressbar"
 	     aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
 	</div>
 </div>

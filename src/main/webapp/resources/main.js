@@ -61,13 +61,16 @@ $(function() {
 			data: formData,
 			xhr: function() {
 
-				var xhr = new window.XMLHttpRequest();
-				xhr.addEventListener('progress', function(event) {
-					if (event.lengthComputable) {
-						progressBar.css('width', (100 * event.loaded / event.total) + '%');
+				var myXhr = $.ajaxSettings.xhr();
+				myXhr.upload.onprogress = function(e) {
+
+					if (e.lengthComputable) {
+						progressBar.css('width', (100 * e.loaded / e.total) + '%');
+					} else {
+						console.log('Event is length uncomputable');
 					}
-				});
-				return xhr;
+				};
+				return myXhr;
 			},
 			success: function (data) {
 
@@ -130,5 +133,92 @@ $(function() {
 				console.log('Metadata posted successfully')
 			}
 		})
+	});
+
+	var newWebMsQueryURL = '';
+	var isUpdating = false;
+	var isAllShowed = false;
+	$(window).scroll(function() {
+
+		if (isUpdating || isAllShowed) {
+			return;
+		}
+
+		if( $(document).height() - $(window).scrollTop() - $(window).height() < 50) {
+
+			isUpdating = true;
+			loadMoreWebMs('/webm/list')
+			isUpdating = false;
+		}
+	});
+
+	function loadMoreWebMs(baseQueryPath) {
+
+		var webmRows = $('tr', '#videos-container');
+		var webmsPerRow = $('td', webmRows.first()).size();
+
+		if (webmsPerRow > $('.webm-preview', webmRows.last()).size()) {
+
+			console.log('All videos are loaded');
+			isAllShowed = true;
+			return;
+		}
+
+		var rowsToLoad = 5;
+		var pageLoaded = webmRows.size() / rowsToLoad;
+
+		var queryUrl = baseQueryPath + '?page=' + pageLoaded +
+			'&size=' + rowsToLoad*webmsPerRow + '&sort=postedWhen,desc'
+
+		console.log('Query url: ' + queryUrl);
+
+		$.getJSON(queryUrl, function(data) {
+
+			console.log('Received data:');
+			console.log(data);
+
+			appendWebMs(data);
+		});
+
+		function appendWebMs(webms) {
+
+			var table = $('table', '#videos-container');
+			var tdElement = $('td', webmRows.first()).first();
+			var newRows = [];
+			var newRow = null;
+			for (var i = 0; i < webms.length; i++) {
+
+				if (i % webmsPerRow == 0) {
+					newRow = $('<tr/>');
+					newRows.push(newRow);
+				}
+
+				var webm = webms[i];
+				var newTdElement = tdElement.clone();
+				$('.webm-name', newTdElement).text(webm["name"]);
+				$('a', newTdElement).attr('href', '/webm/data/' + webm.fileId);
+				$('img', newTdElement).attr('src', '/webm/preview/' + webm.previewId);
+				$('.views', newTdElement).text(webm.viewsCounter);
+				$('.likes', newTdElement).text(webm.likesCounter);
+
+				newRow.append(newTdElement)
+			}
+
+			for (var i = 0; i < newRows.length; i++) {
+				table.append(newRows[i]);
+			}
+		}
+	}
+
+	$('#webm-view-container').on('hide.bs.modal', function() {
+
+		$('video', $(this))[0].pause();
+	});
+
+	$('#videos-container').delegate('.webm-preview a', 'click', function(e) {
+
+		e.preventDefault();
+		$('video', '#webm-view').attr('src', $(this).attr('href'));
+		$('#webm-view-container').modal('show');
 	});
 });

@@ -5,7 +5,7 @@
 
 <div id="videos-container">
 	<table>
-		<c:set var="vidsPerRow" value="4"/>
+		<c:set var="vidsPerRow" value="${videos_in_row}"/>
 		<c:set var="rows" value="${jspUtils.getRowsCount(vidsPerRow, fn:length(webms))}"/>
 
 		<c:forEach begin="0" end="${rows - 1}" var="currentRow">
