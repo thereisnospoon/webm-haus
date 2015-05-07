@@ -3,6 +3,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns="http://www.springframework.org/schema/beans"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -12,7 +13,9 @@
 							http://www.springframework.org/schema/mvc
 							http://www.springframework.org/schema/mvc/spring-mvc.xsd
 							http://www.springframework.org/schema/data/mongo
-							http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+							http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+							http://www.springframework.org/schema/security
+							http://www.springframework.org/schema/security/spring-security.xsd">
 
 
 	<mvc:annotation-driven>
@@ -62,6 +65,27 @@
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="converter" />
 	</bean>
+
+	<!--<security:global-method-security secured-annotations="enabled"/>-->
+
+	<bean id="userDetailsService" class="my.thereisnospoon.webm.security.MongoUserDetailsService"/>
+
+	<bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+	<bean id="daoAuthenticationProvider"  class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService"/>
+		<property name="passwordEncoder" ref="bcryptEncoder"/>
+	</bean>
+
+	<security:authentication-manager>
+		<security:authentication-provider ref="daoAuthenticationProvider"/>
+	</security:authentication-manager>
+
+	<security:http>
+		<security:intercept-url pattern="/**" access="permitAll"/>
+		<security:form-login/>
+		<security:csrf disabled="true"/>
+	</security:http>
 
 	<beans profile="windows">
 		<context:property-placeholder location="classpath:windows.application.properties"/>

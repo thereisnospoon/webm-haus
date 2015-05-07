@@ -4,7 +4,7 @@ repositories {
     mavenCentral()
 }
 
-def spring_version = '4.1.4.RELEASE'
+def spring_version = '4.1.6.RELEASE'
 def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-web-9.0.0.Beta2\\standalone\\deployments'
 
 dependencies {
@@ -17,7 +17,9 @@ dependencies {
             'javax.servlet:jstl:1.2',
             'org.apache.commons:commons-lang3:3.3.2',
             'commons-io:commons-io:2.4',
-		    'commons-codec:commons-codec:1.10'
+		    'commons-codec:commons-codec:1.10',
+		    'org.springframework.security:spring-security-web:4.0.1.RELEASE',
+		    'org.springframework.security:spring-security-config:4.0.1.RELEASE'
 
 	testCompile 'junit:junit:4.11',
 		    'org.mockito:mockito-all:1.9.5',
