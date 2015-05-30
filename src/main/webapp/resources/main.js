@@ -221,4 +221,12 @@ $(function() {
 		$('video', '#webm-view').attr('src', $(this).attr('href'));
 		$('#webm-view-container').modal('show');
 	});
+
+	$('#sign-in-button').click(function() {
+		$('#login-form-container').modal('show');
+	});
+
+	$('#login-form').ajaxForm(function() {
+		alert('Form submitted')
+	});
 });

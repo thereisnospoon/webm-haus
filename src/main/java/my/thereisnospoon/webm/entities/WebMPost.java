@@ -22,8 +22,6 @@ public class WebMPost {
 	private Set<String> tags = new HashSet<>();
 	private long likesCounter;
 	private long viewsCounter;
-	private List<Comment> topComemnts = new LinkedList<>();
-	private List<CommentsChunk> additionalComments = new LinkedList<>();
 
 	public String getId() {
 		return id;
@@ -132,8 +130,6 @@ public class WebMPost {
 				", tags=" + tags +
 				", likesCounter=" + likesCounter +
 				", viewsCounter=" + viewsCounter +
-				", topComemnts=" + topComemnts +
-				", additionalComments=" + additionalComments +
 				'}';
 	}
 }

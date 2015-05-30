@@ -75,16 +75,20 @@ video {
 	color: #04724D;
 }
 
+#header li, #header ul {
+	display: inline-block;
+}
+
+#login-controls {
+	position: relative;
+	float: right;
+}
 
 .search-group {
 	position: relative;
 	float: right;
 	margin-right: 2em;
 	padding-top: 0.4em;
-}
-
-#header li {
-	display: inline-block;
 }
 
 #search-field {

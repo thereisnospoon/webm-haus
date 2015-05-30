@@ -1,14 +1,22 @@
 package my.thereisnospoon.webm.controllers;
 
+import com.mongodb.WriteResult;
 import com.mongodb.gridfs.GridFSDBFile;
+import my.thereisnospoon.webm.controllers.vo.ResponseVO;
+import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.WebMPost;
+import my.thereisnospoon.webm.entities.repos.UserRepository;
 import my.thereisnospoon.webm.entities.repos.WebMRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +30,7 @@ import java.util.regex.Pattern;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.gridfs.GridFsCriteria.where;
+import org.springframework.data.mongodb.core.query.Criteria;
 
 @Controller
 @RequestMapping("/webm")
@@ -38,6 +47,12 @@ public class WebMController {
 
 	@Autowired
 	private WebMRepository webMRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	@RequestMapping(value = "list")
 	@ResponseBody
@@ -63,6 +78,48 @@ public class WebMController {
 		response.setContentLength((int) file.getLength());
 		response.setHeader("ETag", file.getMD5());
 		IOUtils.copy(file.getInputStream(), response.getOutputStream());
+	}
+
+	@Secured(User.ROLE_USER)
+	@RequestMapping(value = "/like/{webmId}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVO likeVideo(@PathVariable String webmId, @AuthenticationPrincipal User user) {
+
+		log.debug("Liking video with webmId = {} by user: {}", webmId, user);
+
+		if (user.getLikedVideos().contains(webmId)) {
+			return new ResponseVO("failed", "You have already liked this video");
+		}
+
+		WriteResult result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", 1),
+				WebMPost.class);
+
+		if (result.getN() == 0) {
+			return new ResponseVO("failed", "Video not found");
+		}
+
+		user.addToLikedVideos(webmId);
+		userRepository.save(user);
+
+		return new ResponseVO("success", "Liked!");
+	}
+
+	@Secured(User.ROLE_USER)
+	@RequestMapping(value = "unlike/{webmId}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVO unlikeVideo(@PathVariable String webmId, @AuthenticationPrincipal User user) {
+
+		log.debug("Unliking video with webmId = {} by user: {}", webmId, user.getUsername());
+
+		if (user.getLikedVideos().contains(webmId)) {
+
+			user.removeFromLikedVideos(webmId);
+			userRepository.save(user);
+
+			return new ResponseVO("success", "Like removed!");
+		} else {
+			return new ResponseVO("failed", "User has never liked the video");
+		}
 	}
 
 	@RequestMapping(value = "/data/{fileId}", method = RequestMethod.GET)

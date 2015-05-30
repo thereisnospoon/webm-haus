@@ -4,6 +4,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns="http://www.springframework.org/schema/beans"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -15,18 +16,24 @@
 							http://www.springframework.org/schema/data/mongo
 							http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 							http://www.springframework.org/schema/security
-							http://www.springframework.org/schema/security/spring-security.xsd">
+							http://www.springframework.org/schema/security/spring-security.xsd
+							http://www.springframework.org/schema/aop
+							http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
 			<bean class="org.springframework.data.web.SortHandlerMethodArgumentResolver"/>
+			<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 
 	<mvc:resources mapping="/resources/**" location="/resources/"/>
-	<context:component-scan base-package="my.thereisnospoon.webm"/>
+	<context:component-scan base-package="my.thereisnospoon.webm">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	</context:component-scan>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -77,13 +84,21 @@
 		<property name="passwordEncoder" ref="bcryptEncoder"/>
 	</bean>
 
+	<security:global-method-security secured-annotations="enabled"/>
+
 	<security:authentication-manager>
 		<security:authentication-provider ref="daoAuthenticationProvider"/>
 	</security:authentication-manager>
 
-	<security:http>
+	<security:http pattern="/resources/**" security="none"/>
+
+	<security:http use-expressions="true">
 		<security:intercept-url pattern="/**" access="permitAll"/>
-		<security:form-login/>
+		<security:form-login login-page="/security/login-page"
+		                     login-processing-url="/security/sign-in"
+		                     authentication-failure-url="/security/auth-fail"
+		                     default-target-url="/security/default-target"
+		                     always-use-default-target="true"/>
 		<security:csrf disabled="true"/>
 	</security:http>
 

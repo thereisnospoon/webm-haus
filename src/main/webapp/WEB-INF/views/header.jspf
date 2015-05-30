@@ -8,6 +8,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="/resources/main.js"></script>
 
 <div id="header">
@@ -16,4 +17,10 @@
 		<li><input id="search-field" type="text"  placeholder="Search">
 		<li><button id="search-button" class="glyphicon glyphicon-search"></button>
 	</ul>
+	<ul id="login-controls">
+		<li><button id="sign-in-button">Sign in</button></li>
+		<li><button id="sign-up-button">Sign up</button></li>
+	</ul>
 </div>
+
+<%@include file="login-form.jspf"%>

@@ -1,18 +1,30 @@
 package my.thereisnospoon.webm.controllers;
 
+import my.thereisnospoon.webm.controllers.vo.ResponseVO;
 import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.repos.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/security")
 public class SecurityController {
+
+	private static final Logger log = LoggerFactory.getLogger(SecurityController.class);
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -20,12 +32,46 @@ public class SecurityController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value = "/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	private HttpHeaders getJsonHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		return headers;
+	}
+
+	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Object createUser(@RequestBody User user) {
 
+		log.debug("Creating user: {}", user.getUsername());
+
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setRoles(Arrays.asList(User.ROLE_USER).stream().collect(Collectors.toSet()));
 		userRepository.insert(user);
 
 		return user;
+	}
+
+	@RequestMapping(value = "/login-page", method = RequestMethod.GET)
+	public ResponseEntity<String> loginPage() {
+		return new ResponseEntity<>(getJsonHeaders(), HttpStatus.UNAUTHORIZED);
+	}
+
+	@RequestMapping(value = "/auth-fail", method = RequestMethod.GET)
+	public ResponseEntity<ResponseVO> authFailure() {
+
+		log.debug("Auth failed");
+
+		return new ResponseEntity<>(new ResponseVO("failed", "authentication problem"), getJsonHeaders(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/default-target", method = RequestMethod.GET)
+	public ResponseEntity<User> defaultTarget() {
+
+		log.debug("Getting default target");
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		log.debug("Current user is {}", user);
+
+		return new ResponseEntity<>(user, getJsonHeaders(), HttpStatus.OK);
 	}
 }

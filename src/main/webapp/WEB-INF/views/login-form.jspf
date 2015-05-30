@@ -1,0 +1,13 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div id="login-form-container" class="modal fade" style="display: none">
+	<div id="login-form-dialog" class="modal-dialog">
+		<div class="modal-content">
+			<form action="/security/sign-in" method="POST" id="login-form">
+				<input type="text" name="username" placeholder="Username">
+				<input type="password" name="password" placeholder="Password">
+				<input type="submit" id="login-form-button" value="Sign in"/>
+			</form>
+		</div>
+	</div>
+</div>
