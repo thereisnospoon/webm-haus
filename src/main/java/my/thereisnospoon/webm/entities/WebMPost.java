@@ -1,5 +1,6 @@
 package my.thereisnospoon.webm.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +12,7 @@ public class WebMPost {
 	@Id
 	private String id;
 
+	@NotBlank
 	private String name;
 	private String description;
 	private String previewId;
@@ -18,7 +20,7 @@ public class WebMPost {
 	private Date postedWhen;
 	private int timezoneOffset;
 	private int duration;
-	private User postedBy;
+	private String postedBy;
 	private Set<String> tags = new HashSet<>();
 	private long likesCounter;
 	private long viewsCounter;
@@ -63,11 +65,11 @@ public class WebMPost {
 		this.postedWhen = postedWhen;
 	}
 
-	public User getPostedBy() {
+	public String getPostedBy() {
 		return postedBy;
 	}
 
-	public void setPostedBy(User postedBy) {
+	public void setPostedBy(String postedBy) {
 		this.postedBy = postedBy;
 	}
 

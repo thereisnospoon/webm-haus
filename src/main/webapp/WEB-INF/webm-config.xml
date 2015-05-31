@@ -102,6 +102,9 @@
 		<security:csrf disabled="true"/>
 	</security:http>
 
+	<bean id="validator"
+	      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
 	<beans profile="windows">
 		<context:property-placeholder location="classpath:windows.application.properties"/>
 	</beans>

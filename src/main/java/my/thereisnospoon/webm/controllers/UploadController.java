@@ -1,6 +1,7 @@
 package my.thereisnospoon.webm.controllers;
 
 import com.mongodb.gridfs.GridFSFile;
+import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.WebMPost;
 import my.thereisnospoon.webm.entities.repos.WebMRepository;
 import my.thereisnospoon.webm.services.FFMPEGService;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +33,7 @@ public class UploadController {
 	private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
 	private static final String SESSION_ID_ATTRIBUTE = "SESSION_ID_ATTRIBUTE";
+	private static final String ANONYMOUS_USERNAME = "anonymous";
 
 	private WebMRepository webMRepository;
 	private GridFsTemplate gridFsTemplate;
@@ -95,7 +98,8 @@ public class UploadController {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public WebMPost uploadMetaData(HttpServletRequest request, @RequestBody WebMPost webMPost) {
+	public WebMPost uploadMetaData(HttpServletRequest request, @RequestBody WebMPost webMPost,
+	                               @AuthenticationPrincipal User user) {
 
 		log.debug("Got metadata:\n{}", webMPost);
 
@@ -105,6 +109,7 @@ public class UploadController {
 
 		webMPost.setPostedWhen(new Date());
 		webMPost.setTimezoneOffset(ZonedDateTime.now().getOffset().getTotalSeconds());
+		webMPost.setPostedBy(user != null ? user.getUsername() : ANONYMOUS_USERNAME);
 
 		return webMRepository.save(webMPost);
 	}

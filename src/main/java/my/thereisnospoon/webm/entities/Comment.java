@@ -1,5 +1,6 @@
 package my.thereisnospoon.webm.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,9 +15,15 @@ public class Comment {
 	@Id
 	private String id;
 
+	@NotBlank
 	private String webmId;
+
+	@NotBlank
 	private String author;
+
+	@NotBlank
 	private String text;
+
 	private Date postedWhen;
 
 	public String getAuthor() {

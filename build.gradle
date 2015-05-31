@@ -20,7 +20,8 @@ dependencies {
 		    'commons-codec:commons-codec:1.10',
 		    'org.springframework.security:spring-security-web:4.0.1.RELEASE',
 		    'org.springframework.security:spring-security-config:4.0.1.RELEASE',
-		    "org.springframework:spring-aspects:${spring_version}"
+		    "org.springframework:spring-aspects:${spring_version}",
+		    'org.hibernate:hibernate-validator:4.3.2.Final'
 
 	testCompile 'junit:junit:4.11',
 		    'org.mockito:mockito-all:1.9.5',

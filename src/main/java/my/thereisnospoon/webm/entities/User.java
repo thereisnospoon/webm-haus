@@ -1,11 +1,15 @@
 package my.thereisnospoon.webm.entities;
 
+import my.thereisnospoon.webm.entities.constraints.UniqueUsername;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,9 +21,16 @@ public class User implements UserDetails {
 	@Id
 	private String id;
 
+	@Pattern(regexp = "\\w+", message = "Username should contain only alphanumeric characters")
+	@Size(min = 4, max = 16, message = "Username length should be between 4 and 16 characters")
+	@NotBlank
+	@UniqueUsername
 	private String username;
 	private String description;
 	private Date createdWhen;
+
+	@Size(min = 6, max = 16, message = "Password length should be between 6 and 16 characters")
+	@NotBlank
 	private String password;
 	private String avatarId;
 	private Set<String> roles = new HashSet<>();

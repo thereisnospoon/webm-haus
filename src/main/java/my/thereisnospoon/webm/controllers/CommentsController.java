@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Date;
 
@@ -31,12 +33,13 @@ public class CommentsController {
 
 	@Secured(User.ROLE_USER)
 	@RequestMapping(method = RequestMethod.POST)
-	public Comment postComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
+	public Comment postComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @AuthenticationPrincipal User user) {
 
 		comment.setPostedWhen(new Date());
 		comment.setAuthor(user.getUsername());
 
 		log.debug("Posting comment: {}", comment);
+		log.debug("Binding result: {}", bindingResult);
 
 		comment = commentRepository.insert(comment);
 		return comment;
