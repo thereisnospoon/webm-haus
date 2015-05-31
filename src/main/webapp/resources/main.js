@@ -135,7 +135,6 @@ $(function() {
 		})
 	});
 
-	var newWebMsQueryURL = '';
 	var isUpdating = false;
 	var isAllShowed = false;
 	$(window).scroll(function() {
@@ -147,7 +146,7 @@ $(function() {
 		if( $(document).height() - $(window).scrollTop() - $(window).height() < 50) {
 
 			isUpdating = true;
-			loadMoreWebMs('/webm/list')
+			loadMoreWebMs('/webm/list');
 			isUpdating = false;
 		}
 	});
@@ -168,7 +167,7 @@ $(function() {
 		var pageLoaded = webmRows.size() / rowsToLoad;
 
 		var queryUrl = baseQueryPath + '?page=' + pageLoaded +
-			'&size=' + rowsToLoad*webmsPerRow + '&sort=postedWhen,desc'
+			'&size=' + rowsToLoad*webmsPerRow + '&sort=postedWhen,desc';
 
 		console.log('Query url: ' + queryUrl);
 
@@ -222,11 +221,71 @@ $(function() {
 		$('#webm-view-container').modal('show');
 	});
 
-	$('#sign-in-button').click(function() {
+	$('#sign-in-button').click(function(event) {
+		event.preventDefault();
 		$('#login-form-container').modal('show');
 	});
 
-	$('#login-form').ajaxForm(function() {
-		alert('Form submitted')
+	var authFailedDiv = $('#auth-failed-div');
+	$('#login-form').ajaxForm(function(response) {
+
+		console.log('Response:');
+		console.log(response);
+
+		if (response.status && 'failed' == response.status) {
+			authFailedDiv.show();
+		} else {
+			console.log('auth successful');
+			authFailedDiv.hide();
+			$('#login-form-container').modal('hide');
+			$('.anon-controls').hide();
+
+			var userControl = $('<a id="user-ref" class="auth-controls" href="">' +
+				'<img src="/resources/default_avatar.png"/>' +
+				response.username +
+				'</a>');
+
+			var loginControls = $('#login-controls');
+			loginControls.append(userControl);
+			loginControls.append('<a href="/security/j_spring_security_logout"><span class="glyphicon glyphicon-off"/></a>')
+		}
+	});
+
+	$('#sign-up-button').click(function(event) {
+		event.preventDefault();
+		$('#sign-up-form-container').modal('show');
+	});
+
+	var signUpForm = $('#sign-up-form');
+	signUpForm.find('.login-form-button').click(function() {
+
+		var pass = signUpForm.find('.login-password').find('input').val();
+		var repeatedPass = signUpForm.find('.login-password-repeat').find('input').val();
+
+		if (!pass || !repeatedPass || repeatedPass != pass) {
+
+			var errorEl = signUpForm.find('.login-password').find('.error_message');
+			errorEl.text('Passwords should correspond');
+			errorEl.show();
+			return;
+		}
+
+		var newUser = {password: pass, username: signUpForm.find('.login-username').find('input').val()};
+		$.ajax({
+			type: 'POST',
+			url: '/security/sign-up',
+			contentType: 'application/json',
+			data: JSON.stringify(newUser),
+			success: function(data) {
+
+				console.log(data);
+
+				if (data.status && data.status == 'failed') {
+					for (var j = 0; j < data.errors.length; j++) {
+						console.log('login-' + data.errors[j].field);
+					}
+				}
+			}
+		});
 	});
 });

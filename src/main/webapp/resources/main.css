@@ -79,14 +79,40 @@ video {
 	display: inline-block;
 }
 
-#login-controls {
+#right-header-elements {
 	position: relative;
 	float: right;
+	display: flex;
+	flex-direction: row;
+}
+
+#login-controls {
+	padding: 0px 0 4px 0;
+	margin: 0 1.5em 0 0;
+	position: relative;
+	display: flex;
+	font-size: 1.2em;
+	text-shadow: 0px 0px 0px black;
+}
+
+#login-controls a {
+	border-width: 0;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: black;
+	background-color: inherit;
+}
+
+#login-controls a:hover, #login-controls a:active, #login-controls a:visited {
+	text-decoration: none;
+}
+
+#login-controls a:hover {
+	background-color: wheat;
 }
 
 .search-group {
-	position: relative;
-	float: right;
 	margin-right: 2em;
 	padding-top: 0.4em;
 }
@@ -205,4 +231,61 @@ video {
 #webm-view .modal-content {
 	margin-top: 30%;
 	background-color: black;
+}
+
+.login-form-parent {
+	background-color: #fbf8f8;
+	margin-top: 40%;
+}
+
+.login-form-parent div {
+	text-align: center;
+}
+
+.login-form div {
+	margin-top: 1.5em;
+	margin-bottom: 0.4em;
+}
+
+.login-form input {
+	text-align: center;
+	border-radius: 10px;
+	border: 1px solid #9b9789;
+}
+
+.login-welcome {
+	font-size: 2em;
+	background-color: #ded9c5;
+	border: 1px solid #c7c3b1;
+	box-shadow: 0 0 1px green;
+}
+
+.login-form-button {
+	display: flex;
+	margin: 2em auto 1em auto;
+	width: 100px;
+	font-size: 1.2em;
+	background-color: #F9F8F4;
+	padding-left: 23px;
+	border-radius: 10px;
+	border: 1px solid #9b9789;
+}
+
+.login-form-button:hover {
+	background-color: #A1E8AF;
+}
+
+#login-controls #user-ref {
+	padding-top: 0;
+}
+
+#login-controls img {
+	width: 2.1em;
+	height: 2.1em;
+	margin-right: 0.5em;
+	margin-top: 0.2em;
+}
+
+.error_message {
+	color: red;
 }

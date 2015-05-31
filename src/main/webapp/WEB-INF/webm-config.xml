@@ -99,6 +99,7 @@
 		                     authentication-failure-url="/security/auth-fail"
 		                     default-target-url="/security/default-target"
 		                     always-use-default-target="true"/>
+		<security:logout logout-url="/security/j_spring_security_logout" logout-success-url="/"/>
 		<security:csrf disabled="true"/>
 	</security:http>
 

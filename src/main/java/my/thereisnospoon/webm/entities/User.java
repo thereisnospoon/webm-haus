@@ -29,7 +29,7 @@ public class User implements UserDetails {
 	private String description;
 	private Date createdWhen;
 
-	@Size(min = 6, max = 16, message = "Password length should be between 6 and 16 characters")
+	@Size(min = 6, message = "Password length should be at least 6 characters")
 	@NotBlank
 	private String password;
 	private String avatarId;

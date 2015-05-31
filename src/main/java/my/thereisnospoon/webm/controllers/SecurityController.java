@@ -12,11 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -39,9 +38,15 @@ public class SecurityController {
 	}
 
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Object createUser(@RequestBody User user) {
+	public Object createUser(@RequestBody @Valid User user, BindingResult bindingResult) {
 
-		log.debug("Creating user: {}", user.getUsername());
+
+		log.debug("Creating user: {}", user);
+		log.debug("Binding result for new user: {}", bindingResult);
+
+		if (bindingResult.hasFieldErrors()) {
+			return new ResponseVO("failed", "Found errors during validation", bindingResult.getFieldErrors());
+		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRoles(Arrays.asList(User.ROLE_USER).stream().collect(Collectors.toSet()));
@@ -60,7 +65,7 @@ public class SecurityController {
 
 		log.debug("Auth failed");
 
-		return new ResponseEntity<>(new ResponseVO("failed", "authentication problem"), getJsonHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseVO("failed", "authentication problem", null), getJsonHeaders(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/default-target", method = RequestMethod.GET)

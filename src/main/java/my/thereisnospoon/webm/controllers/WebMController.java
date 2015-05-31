@@ -88,20 +88,20 @@ public class WebMController {
 		log.debug("Liking video with webmId = {} by user: {}", webmId, user);
 
 		if (user.getLikedVideos().contains(webmId)) {
-			return new ResponseVO("failed", "You have already liked this video");
+			return new ResponseVO("failed", "You have already liked this video", null);
 		}
 
 		WriteResult result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", 1),
 				WebMPost.class);
 
 		if (result.getN() == 0) {
-			return new ResponseVO("failed", "Video not found");
+			return new ResponseVO("failed", "Video not found", null);
 		}
 
 		user.addToLikedVideos(webmId);
 		userRepository.save(user);
 
-		return new ResponseVO("success", "Liked!");
+		return new ResponseVO("success", "Liked!", null);
 	}
 
 	@Secured(User.ROLE_USER)
@@ -116,9 +116,9 @@ public class WebMController {
 			user.removeFromLikedVideos(webmId);
 			userRepository.save(user);
 
-			return new ResponseVO("success", "Like removed!");
+			return new ResponseVO("success", "Like removed!", null);
 		} else {
-			return new ResponseVO("failed", "User has never liked the video");
+			return new ResponseVO("failed", "User has never liked the video", null);
 		}
 	}
 

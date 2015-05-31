@@ -5,6 +5,7 @@ repositories {
 }
 
 def spring_version = '4.1.6.RELEASE'
+def spring_security_version = '4.0.1.RELEASE'
 def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-web-9.0.0.Beta2\\standalone\\deployments'
 
 dependencies {
@@ -18,8 +19,9 @@ dependencies {
             'org.apache.commons:commons-lang3:3.3.2',
             'commons-io:commons-io:2.4',
 		    'commons-codec:commons-codec:1.10',
-		    'org.springframework.security:spring-security-web:4.0.1.RELEASE',
-		    'org.springframework.security:spring-security-config:4.0.1.RELEASE',
+		    "org.springframework.security:spring-security-web:${spring_security_version}",
+		    "org.springframework.security:spring-security-config:${spring_security_version}",
+		    "org.springframework.security:spring-security-taglibs:${spring_security_version}",
 		    "org.springframework:spring-aspects:${spring_version}",
 		    'org.hibernate:hibernate-validator:4.3.2.Final'
 

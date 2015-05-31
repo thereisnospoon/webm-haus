@@ -1,22 +1,25 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="login-form-container" class="modal fade" style="display: none">
+<div id="sign-up-form-container" class="modal fade" style="display: none">
 	<div class="login-form-dialog modal-dialog">
 		<div class="modal-content login-form-parent">
 			<div class="login-welcome">Welcome!</div>
-			<form action="/security/sign-in" method="POST" class="login-form" id="login-form">
+			<form action="security/sign-up" method="POST" class="login-form" id="sign-up-form">
 				<div class="login-username">
 					<p>Username</p>
 					<input type="text" name="username" placeholder="Username">
+					<p style="display: none" class="error_message"></p>
 				</div>
 				<div class="login-password">
 					<p>Password</p>
 					<input type="password" name="password" placeholder="Password">
+					<p style="display: none" class="error_message"></p>
 				</div>
-				<div id="auth-failed-div" style="display: none; color: crimson">
-					<p>Wrong username or password</p>
+				<div class="login-password-repeat">
+					<p>Repeat password</p>
+					<input type="password" name="password-repeat" placeholder="Repeat password">
 				</div>
-				<input type="submit" class="login-form-button" value="Sign in"/>
+				<button type="button" class="login-form-button">Sign up</button>
 			</form>
 		</div>
 	</div>
