@@ -16,6 +16,7 @@
 
 <div id="header">
     <a id="home-logo" href="/">webm-haus</a>
+	<a id="upload-ref" href="/upload">Upload video</a>
 
 	<div id="right-header-elements">
 		<ul class="search-group">

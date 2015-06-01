@@ -38,6 +38,14 @@ body {
 	resize: none;
 }
 
+#video-present-alert {
+	position: absolute;
+	left: auto;
+	right: auto;
+	margin-left: 40%;
+	top: 50%;
+}
+
 #control-buttons button {
 	position: relative;
 	float: right;
@@ -73,6 +81,26 @@ video {
 	text-decoration: none;
 	text-shadow: 0px 0px 0.1px;
 	color: #04724D;
+}
+
+#upload-ref {
+	background-color: #2fbf78;
+	color: black;
+	text-decoration: none;
+	font-size: 1.3em;
+	padding: 0.2em 0.8em 0.2em 0.8em;
+	margin-left: 5em;
+	margin-top: 0.2em;
+	display: inline-block;
+	height: 1.9em;
+	border-radius: 8px;
+	border: 2px solid #2aab6c;
+	box-shadow: 0 0 4px #6dd2a0;
+}
+
+#upload-ref:hover, #upload-ref:active {
+	background-color: #58cb93;
+	text-shadow: 0px 0px 0px black;
 }
 
 #header li, #header ul {
@@ -288,4 +316,21 @@ video {
 
 .error_message {
 	color: red;
+}
+
+#load-more {
+	background-color: #DAE3E5;
+	text-align: center;
+	font-size: 2em;
+	width: 86%;
+	margin: 1em auto 3em auto;
+	border-radius: 6px;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	box-shadow: 0 0 3px;
+	cursor: pointer;
+}
+
+#load-more:hover {
+	background-color: #BBD1EA;
 }

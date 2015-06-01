@@ -6,7 +6,7 @@
 		<img src="/webm/preview/${webm.previewId}"/>
 	</a>
 	<ul class="webm-stats">
-		<li><span class="glyphicon glyphicon-expand">${webm.viewsCounter}</span></li>
-		<li><span class="glyphicon glyphicon-heart">${webm.likesCounter}</span></li>
+		<li><span class="glyphicon glyphicon-expand views">${webm.viewsCounter}</span></li>
+		<li><span class="glyphicon glyphicon-heart likes">${webm.likesCounter}</span></li>
 	</ul>
 </div>

@@ -22,4 +22,5 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<div id="load-more">Load more videos</div>
 </div>

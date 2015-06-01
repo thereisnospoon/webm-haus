@@ -38,7 +38,7 @@
 		<input id="webMTags" type="text" class="form-control" placeholder="Tags">
 
 		<div id="control-buttons" style="display: none">
-			<button type="button" id="save-btn" data-loading-text="Saving" class="btn btn-primary">Save</button>
+			<button type="button" id="save-btn" data-loading-text="Saving" class="btn btn-primary" disabled>Save</button>
 			<button type="button" id="cancel-btn" class="btn btn-default">Cancel</button>
 		</div>
 	</div>
@@ -50,6 +50,11 @@
 	<div class="progress-bar progress-bar-info" role="progressbar"
 	     aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
 	</div>
+</div>
+
+<div id="video-present-alert" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>Oh snap!</strong> Somebody has already uploaded this video file.
 </div>
 
 </body>

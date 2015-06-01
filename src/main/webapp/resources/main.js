@@ -91,6 +91,13 @@ $(function() {
 					if (!data.fileId) {
 
 						console.log('Emtpy response is returned');
+						dropArea.show('blind', 'fast');
+
+						var alrt = $('#video-present-alert');
+						alrt.show();
+						alrt.find('.close').click(function() {
+							$(this).parent().hide();
+						});
 
 						return
 					}
@@ -114,7 +121,18 @@ $(function() {
 		});
 	});
 
-	$('#save-btn').click(function (){
+	var saveBtn = $('#save-btn');
+
+	$('#webMName').keyup(function() {
+
+		if ($(this).val()) {
+			saveBtn.removeAttr('disabled');
+		} else {
+			saveBtn.attr('disabled', 'disabled');
+		}
+	});
+
+	saveBtn.click(function (){
 
 		currentWebm['description'] = $('#webMDescription').val();
 		currentWebm['tags'] = $('#webMTags').val().split(', ');
@@ -128,29 +146,28 @@ $(function() {
 			contentType: 'application/json',
 			url: '/upload/meta',
 			data: JSON.stringify(currentWebm),
-			success: function(data) {
+			success: function() {
 
-				console.log('Metadata posted successfully')
+				console.log('Metadata posted successfully');
+				window.location.replace('/');
 			}
 		})
 	});
 
 	var isUpdating = false;
 	var isAllShowed = false;
-	$(window).scroll(function() {
+	$('#load-more').click(function() {
 
 		if (isUpdating || isAllShowed) {
 			return;
 		}
 
-		if( $(document).height() - $(window).scrollTop() - $(window).height() < 50) {
-
-			isUpdating = true;
-			loadMoreWebMs('/webm/list');
-			isUpdating = false;
-		}
+		isUpdating = true;
+		loadMoreWebMs('/webm/list');
+		isUpdating = false;
 	});
 
+	//TODO: Fix loading when there is unfull row
 	function loadMoreWebMs(baseQueryPath) {
 
 		var webmRows = $('tr', '#videos-container');
@@ -259,6 +276,9 @@ $(function() {
 	var signUpForm = $('#sign-up-form');
 	signUpForm.find('.login-form-button').click(function() {
 
+		signUpForm.find('.error_message').text('');
+		signUpForm.find('.error_message').hide();
+
 		var pass = signUpForm.find('.login-password').find('input').val();
 		var repeatedPass = signUpForm.find('.login-password-repeat').find('input').val();
 
@@ -281,9 +301,24 @@ $(function() {
 				console.log(data);
 
 				if (data.status && data.status == 'failed') {
+
 					for (var j = 0; j < data.errors.length; j++) {
-						console.log('login-' + data.errors[j].field);
+
+						var errorForField = '.login-' + data.errors[j].field;
+						var errorMessageElement = signUpForm.find(errorForField).find('.error_message');
+						errorMessageElement.text(data.errors[j].defaultMessage);
+						errorMessageElement.show();
 					}
+				} else {
+
+					signUpForm.find('input').val('');
+					$('#sign-up-form-container').modal('hide');
+
+					var username = data.username;
+					var loginForm = $('#login-form');
+					loginForm.find('.login-username').find('input').val(username);
+					loginForm.find('.login-password').find('input').val(pass);
+					loginForm.submit();
 				}
 			}
 		});
