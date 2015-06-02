@@ -1,0 +1,22 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<div id="webm-view-container" class="modal fade" style="display: none">
+	<div id="webm-view" class="modal-dialog">
+		<div class="modal-content" id="view-wrapper">
+			<div id="video-wrapper">
+				<video autoplay controls class="modal-body" src=""> Your
+					browser doesn't support video tag
+				</video>
+			</div>
+			<div id="video-meta">
+				<div id="video-name">Some video name</div>
+				<div id="author_and_date">
+					<span id="author-name">Anonymous</span>
+					<span id="video-date">1 day ago</span>
+				</div>
+				<div id="video-tags">#tag1 #tag2</div>
+				<div id="comments-div">Comment</div>
+				<input type="text" id="comment-input"/>
+			</div>
+		</div>
+	</div>
+</div>
