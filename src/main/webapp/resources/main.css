@@ -334,3 +334,86 @@ video {
 #load-more:hover {
 	background-color: #BBD1EA;
 }
+
+#webm-view div.modal-content {
+	width: 200%;
+	left: -45%;
+	background-color: #edf4ff;
+}
+
+#video-wrapper {
+	width: 70%;
+}
+
+#video-meta {
+	width: 29%;
+	position: absolute;
+	top: 1%;
+	right: 1%;
+	height: 90%;
+}
+
+#video-name {
+	text-align: center;
+	font-size: 1.3em;
+}
+
+#author_and_date {
+	font-size: 0.9em;
+	margin-left: 2em;
+	margin-top: 0.2em;
+	padding-top: 0.4em;
+	border-top: 1px solid #b4bdcc;
+}
+
+#author-name {
+	font-weight: bold;
+}
+
+#video-tags {
+	color: #000099;
+	margin-left: 2em;
+	font-family: monospace;
+	border-bottom: 1px solid #b4bdcc;
+	margin-bottom: 0.6em
+}
+
+#comments-div {
+	background-color: #e2edff;
+	height: 80%;
+	width: 95%;
+	margin-left: 5%;
+	box-shadow: 0px 2px 3px #9ea5b2;
+	border: 1px solid #9ea5b2;
+}
+
+#comment_and_like {
+	background-color: #e7f0ff;
+	width: 95%;
+	margin-left: 5%;
+	border: 1px solid #b4bdcc;
+	box-shadow: 0px 2px 3px #9ea5b2;
+}
+
+#like-btn {
+	font-size: 1.7em;
+	padding: 1% 2% 1% 1%;
+	border-radius: 6px;
+	margin-top: 1%;
+	margin-left: 1%;
+	color: #878e99;
+	background-color: #e4eeff;
+}
+
+#like-btn:hover {
+	cursor: pointer;
+	color: #43474c;
+}
+
+#comment-input {
+	float: right;
+	margin-top: 5px;
+	margin-right: 1em;
+	width: 83%;
+	text-indent: 1em;
+}
