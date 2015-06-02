@@ -15,7 +15,85 @@
 						<span id="video-date">1 day ago</span>
 					</div>
 					<div id="video-tags">#tag1 #tag2</div>
-					<div id="comments-div">Comment</div>
+					<div id="comments-div">
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+						<div class="comment">
+							<div>
+								<span class="comment-author">Vasa</span>
+								<span class="comment-date">2 min ago</span>
+							</div>
+							<div class="comment-text">This is message very very very very very ling very very</div>
+						</div>
+					</div>
 					<div id="comment_and_like">
 						<span id="like-btn" class="glyphicon glyphicon-heart"></span>
 						<input type="text" id="comment-input" placeholder="Post a comment" title="Press enter to submit"/>

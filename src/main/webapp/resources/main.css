@@ -345,6 +345,11 @@ video {
 	width: 70%;
 }
 
+video {
+	max-height: 40em;
+	min-height: 30em;
+}
+
 #video-meta {
 	width: 29%;
 	position: absolute;
@@ -385,6 +390,16 @@ video {
 	margin-left: 5%;
 	box-shadow: 0px 2px 3px #9ea5b2;
 	border: 1px solid #9ea5b2;
+	overflow-y: scroll;
+}
+
+.comment {
+	padding: 5px 0 1.2em 1em;
+}
+
+.comment-author {
+	font-weight: bold;
+	color: #1e005b;
 }
 
 #comment_and_like {
@@ -393,6 +408,12 @@ video {
 	margin-left: 5%;
 	border: 1px solid #b4bdcc;
 	box-shadow: 0px 2px 3px #9ea5b2;
+}
+
+.comment-date {
+	font-size: 0.9em;
+	margin-left: 1em;
+	color: #9ea5b2;
 }
 
 #like-btn {
