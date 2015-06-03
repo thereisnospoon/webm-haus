@@ -23,7 +23,8 @@ dependencies {
 		    "org.springframework.security:spring-security-config:${spring_security_version}",
 		    "org.springframework.security:spring-security-taglibs:${spring_security_version}",
 		    "org.springframework:spring-aspects:${spring_version}",
-		    'org.hibernate:hibernate-validator:4.3.2.Final'
+		    'org.hibernate:hibernate-validator:4.3.2.Final',
+		    'org.ocpsoft.prettytime:prettytime:4.0.0.Final'
 
 	testCompile 'junit:junit:4.11',
 		    'org.mockito:mockito-all:1.9.5',
