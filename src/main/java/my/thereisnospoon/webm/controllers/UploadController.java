@@ -20,8 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -105,6 +104,11 @@ public class UploadController {
 
 		if (!Objects.equals(request.getSession().getAttribute(SESSION_ID_ATTRIBUTE), request.getSession().getId())) {
 			throw new IllegalStateException("Upload and meta-data submission sessions are different");
+		}
+
+		Set<String> tags = webMPost.getTags();
+		if (tags != null && !tags.isEmpty()) {
+			webMPost.setTags(new HashSet<>(Arrays.asList(tags.iterator().next().split("\\W+"))));
 		}
 
 		webMPost.setPostedWhen(new Date());

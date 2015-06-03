@@ -163,28 +163,17 @@ $(function() {
 		}
 
 		isUpdating = true;
-		loadMoreWebMs('/webm/list');
+		loadMoreWebMs();
 		isUpdating = false;
 	});
 
-	//TODO: Fix loading when there is unfull row
-	function loadMoreWebMs(baseQueryPath) {
+	function loadMoreWebMs() {
 
 		var webmRows = $('tr', '#videos-container');
-		var webmsPerRow = $('td', webmRows.first()).size();
+		var webmsPerRow = 4;
 
-		if (webmsPerRow > $('.webm-preview', webmRows.last()).size()) {
-
-			console.log('All videos are loaded');
-			isAllShowed = true;
-			return;
-		}
-
-		var rowsToLoad = 5;
-		var pageLoaded = webmRows.size() / rowsToLoad;
-
-		var queryUrl = baseQueryPath + '?page=' + pageLoaded +
-			'&size=' + rowsToLoad*webmsPerRow + '&sort=postedWhen,desc';
+		var lastWebmId = webmRows.last().find('.webm-id').last().text();
+		var queryUrl = '/webm/next/' + lastWebmId + '?webmQuantity=8';
 
 		console.log('Query url: ' + queryUrl);
 
@@ -211,6 +200,11 @@ $(function() {
 
 				var webm = webms[i];
 				var newTdElement = tdElement.clone();
+
+				$('.webm-id', newTdElement).text(webm.id);
+				$('.webm-author', newTdElement).text(webm.postedBy);
+				$('.webm-tags', newTdElement).text(webm.tags);
+				$('.webm-postedWhen').text(webm.prettyDate);
 				$('.webm-name', newTdElement).text(webm["name"]);
 				$('a', newTdElement).attr('href', '/webm/data/' + webm.fileId);
 				$('img', newTdElement).attr('src', '/webm/preview/' + webm.previewId);
@@ -412,7 +406,24 @@ $(function() {
 		$('#video-name').text($(this).parent().find('.webm-name').text());
 		$('#author-name').text($(this).parent().find('.webm-author').text());
 		$('#video-date').text($(this).parent().find('.webm-postedWhen').text());
-		$('#video-tags').text($(this).parent().find('.webm-tags').text().replace('[', '').replace(']', ''));
+
+		var webmTags = $('#video-tags');
+		webmTags.find('.tag').remove();
+
+		var tags = $(this).parent().find('.webm-tags').text().split(/\W+/);
+		for (var j = 0; j < tags.length; j++) {
+
+			if (!tags[j].trim()) {
+				continue;
+			}
+
+			var tagRef = $('<a/>');
+			tagRef.attr('href', '/search?keywords=' + tags[j]);
+			tagRef.addClass('tag');
+			tagRef.text('#' + tags[j]);
+
+			webmTags.append(tagRef);
+		}
 		
 		showCommentsForCurrentWebM();
 		setCurrentLikeStatus();
@@ -442,5 +453,23 @@ $(function() {
          				}
                      }
 			}});
+	});
+
+	function makeSearch() {
+
+		var searchString = $('#search-field').val();
+		if (!searchString) {
+			return;
+		}
+
+		window.location.href = '/search?keywords=' + encodeURIComponent(searchString);
+	}
+
+	$('#search-button').click(makeSearch);
+	$('#search-field').keydown(function(e) {
+
+		if (e.keyCode == 13) {
+			makeSearch();
+		}
 	});
 });

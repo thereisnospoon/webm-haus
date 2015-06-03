@@ -122,6 +122,10 @@ public class WebMPost {
 		return new PrettyTime().format(postedWhen);
 	}
 
+	public void setTags(Set<String> tags) {
+		this.tags = tags;
+	}
+
 	@Override
 	public String toString() {
 		return "WebMPost{" +
@@ -138,5 +142,10 @@ public class WebMPost {
 				", likesCounter=" + likesCounter +
 				", viewsCounter=" + viewsCounter +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return Objects.equals(this.id, obj != null ? ((WebMPost) obj).getId() : null);
 	}
 }

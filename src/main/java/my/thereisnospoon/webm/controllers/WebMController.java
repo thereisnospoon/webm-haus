@@ -6,13 +6,13 @@ import my.thereisnospoon.webm.controllers.vo.ResponseVO;
 import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.WebMPost;
 import my.thereisnospoon.webm.entities.repos.UserRepository;
-import my.thereisnospoon.webm.entities.repos.WebMRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.security.access.annotation.Secured;
@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.gridfs.GridFsCriteria.where;
-import org.springframework.data.mongodb.core.query.Criteria;
 
 @Controller
 @RequestMapping("/webm")
@@ -45,8 +45,6 @@ public class WebMController {
 	@Autowired
 	private GridFsTemplate gridFsTemplate;
 
-	@Autowired
-	private WebMRepository webMRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -54,13 +52,18 @@ public class WebMController {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	@RequestMapping(value = "list")
+	@RequestMapping(value = "/next/{afterWebmId}")
 	@ResponseBody
-	public List<WebMPost> getWebMs(Pageable page) {
+	public List<WebMPost> getWebMsAfter(@RequestParam int webmQuantity, @PathVariable String afterWebmId) {
 
-		log.debug("Getting webms with following pageable: {}", page);
+		Query getDateQuery = query(where("_id").is(afterWebmId));
+		getDateQuery.fields().include("postedWhen");
+		Date postedWhen = mongoTemplate.findOne(getDateQuery, WebMPost.class).getPostedWhen();
 
-		return webMRepository.getSliceWebMs(page).getContent();
+		Query findEarlierWebMs = query(where("postedWhen").lt(postedWhen)).limit(webmQuantity);
+		findEarlierWebMs.with(new Sort(new Sort.Order(Sort.Direction.DESC, "postedWhen")));
+
+		return  mongoTemplate.find(findEarlierWebMs, WebMPost.class);
 	}
 
 	@RequestMapping(value = "/preview/{previewId}", method = RequestMethod.GET)
@@ -91,14 +94,14 @@ public class WebMController {
 		String responseDesc;
 		if (user.getLikedVideos().contains(webmId)) {
 
-			result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", -1),
+			result = mongoTemplate.updateFirst(query(where("_id").is(webmId)), new Update().inc("likesCounter", -1),
 					WebMPost.class);
 			
 			user.getLikedVideos().remove(webmId);
 			responseDesc = "removed";
 		} else {
 
-			result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", 1),
+			result = mongoTemplate.updateFirst(query(where("_id").is(webmId)), new Update().inc("likesCounter", 1),
 					WebMPost.class);
 			
 			user.getLikedVideos().add(webmId);
