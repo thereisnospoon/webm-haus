@@ -1,6 +1,7 @@
 package my.thereisnospoon.webm.entities;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -115,6 +116,10 @@ public class WebMPost {
 
 	public void setViewsCounter(long viewsCounter) {
 		this.viewsCounter = viewsCounter;
+	}
+	
+	public String getPrettyDate() {
+		return new PrettyTime().format(postedWhen);
 	}
 
 	@Override

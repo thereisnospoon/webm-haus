@@ -231,13 +231,6 @@ $(function() {
 		$('video', $(this))[0].pause();
 	});
 
-	$('#videos-container').delegate('.webm-preview a', 'click', function(e) {
-
-		e.preventDefault();
-		$('video', '#webm-view').attr('src', $(this).attr('href'));
-		$('#webm-view-container').modal('show');
-	});
-
 	$('#sign-in-button').click(function(event) {
 		event.preventDefault();
 		$('#login-form-container').modal('show');
@@ -265,6 +258,13 @@ $(function() {
 			var loginControls = $('#login-controls');
 			loginControls.append(userControl);
 			loginControls.append('<a href="/security/j_spring_security_logout"><span class="glyphicon glyphicon-off"/></a>')
+			
+			var commentPostingEl = $('<div id="comment_and_like">' +
+					'<span id="like-btn" class="glyphicon glyphicon-heart"></span>' + 
+					'<input type="text" id="comment-input" placeholder="Post a comment" title="Press enter to submit"/>' +
+					'</div>');
+			
+			$('#video-meta').append(commentPostingEl);
 		}
 	});
 
@@ -322,5 +322,76 @@ $(function() {
 				}
 			}
 		});
+	});
+	
+	function formCommentElement(data) {
+		
+		var commentTemplate = $('#comment-template');
+        var newComment = commentTemplate.clone();
+        newComment.removeAttr('id');
+        newComment.removeAttr('style');
+        newComment.find('.comment-author').text(data.author);
+        newComment.find('.comment-text').text(data.text);
+        newComment.find('.comment-date').text(data.prettyPostedWhen);
+        
+        return newComment;
+	}
+	
+	// Comments posting and likes
+	var commentsDiv = $('#comments-div');
+	
+	$('#webm-view').on('keyup', '#comment-input', function(event) {
+		
+		var commentInput = $('#comment-input');
+		if (event.keyCode == 13 && commentInput.val()) {
+
+			var commentToPost = {text: commentInput.val(), webmId: $('#current-video-id').text()};
+			
+			console.log('Posting comment:');
+			console.log(commentToPost);
+			
+			$.ajax({
+				type: 'POST',
+				url: '/comments',
+				contentType: 'application/json',
+				data: JSON.stringify(commentToPost),
+				success: function(data) {
+					
+	                     console.log('Looks like comment has been posted');
+	                     console.log(data);
+	                     
+	                     commentInput.val('');
+	                     commentsDiv.prepend(formCommentElement(data));
+				}});
+		}
+	});
+	
+	function showCommentsForCurrentWebM() {
+		
+		commentsDiv.find('.comment').not('#comment-template').remove();
+		
+		var currentVideoId = $('#current-video-id').text();
+		$.get('/comments/' + currentVideoId, function(comments) {
+			
+			for (var i = 0; i < comments.length; i++) {
+				commentsDiv.append(formCommentElement(comments[i]));
+			}
+		});
+	}
+	
+	$('#videos-container').delegate('.webm-preview a', 'click', function(e) {
+
+		e.preventDefault();
+		
+		$('video', '#webm-view').attr('src', $(this).attr('href'));
+		$('#current-video-id').text($(this).parent().find('.webm-id').text());
+		$('#video-name').text($(this).parent().find('.webm-name').text());
+		$('#author-name').text($(this).parent().find('.webm-author').text());
+		$('#video-date').text($(this).parent().find('.webm-postedWhen').text());
+		$('#video-tags').text($(this).parent().find('.webm-tags').text().replace('[', '').replace(']', ''));
+		
+		showCommentsForCurrentWebM();
+		
+		$('#webm-view-container').modal('show');
 	});
 });

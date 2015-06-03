@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<sec:authentication var="user" property="principal" />
+
 <div id="webm-view-container" class="modal fade" style="display: none">
 	<div id="webm-view" class="modal-dialog">
 		<div class="modal-content">
@@ -9,95 +13,30 @@
 					</video>
 				</div>
 				<div id="video-meta">
-					<div id="video-name">Some video name</div>
+					<span id="current-video-id" style="display: none;"></span>
+					<div id="video-name"></div>
 					<div id="author_and_date">
-						<span id="author-name">Anonymous</span>
-						<span id="video-date">1 day ago</span>
+						<span id="author-name"></span>
+						<span id="video-date"></span>
 					</div>
-					<div id="video-tags">#tag1 #tag2</div>
+					<div id="video-tags"></div>
 					<div id="comments-div">
-						<div class="comment">
+						<div class="comment" id="comment-template" style="display: none;">
 							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
+								<span class="comment-author"></span>
+								<span class="comment-date"></span>
 							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
-						</div>
-						<div class="comment">
-							<div>
-								<span class="comment-author">Vasa</span>
-								<span class="comment-date">2 min ago</span>
-							</div>
-							<div class="comment-text">This is message very very very very very ling very very</div>
+							<div class="comment-text"></div>
 						</div>
 					</div>
-					<div id="comment_and_like">
-						<span id="like-btn" class="glyphicon glyphicon-heart"></span>
-						<input type="text" id="comment-input" placeholder="Post a comment" title="Press enter to submit"/>
-					</div>
+					<sec:authorize access="hasRole('ROLE_USER')">
+						<div id="comment_and_like">
+							<span id="like-btn" class="glyphicon glyphicon-heart"></span>
+							<input
+								type="text" id="comment-input" placeholder="Post a comment"
+								title="Press enter to submit" maxlength="140"/>
+						</div>
+					</sec:authorize>
 				</div>
 			</div>
 		</div>

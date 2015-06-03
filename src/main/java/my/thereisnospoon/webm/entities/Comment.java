@@ -1,8 +1,11 @@
 package my.thereisnospoon.webm.entities;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
@@ -17,8 +20,6 @@ public class Comment {
 
 	@NotBlank
 	private String webmId;
-
-	@NotBlank
 	private String author;
 
 	@NotBlank
@@ -64,6 +65,11 @@ public class Comment {
 
 	public void setWebmId(String webmId) {
 		this.webmId = webmId;
+	}
+	
+	@JsonProperty
+	public String getPrettyPostedWhen() {
+		return new PrettyTime().format(postedWhen);
 	}
 
 	@Override

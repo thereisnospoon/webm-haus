@@ -2,6 +2,9 @@
 <div class="webm-preview">
 	<span class="webm-name">${webm.name}</span>
 	<span class="webm-id" style="display: none">${webm.id}</span>
+	<span class="webm-author" style="display: none;">${webm.postedBy}</span>
+	<span class="webm-tags" style="display: none;">${webm.tags}</span>
+	<span class="webm-postedWhen" style="display: none;">${webm.prettyDate}</span>
 	<a href="/webm/data/${webm.fileId}">
 		<img src="/webm/preview/${webm.previewId}"/>
 	</a>
