@@ -366,6 +366,30 @@ $(function() {
 		}
 	});
 	
+	function setCurrentLikeStatus() {
+		
+		var likeBtn = $('#like-btn');
+		if (!likeBtn.length) {
+			return;
+		}
+		
+		var currentVideoId = $('#current-video-id').text();
+		$.get('/webm/isLiked/' + currentVideoId, function(response) {
+			
+			console.log('Response for like status:');
+			console.log(response);
+			
+			if (response.status && response.status == 'success') {
+				
+				if (response.message == 'true') {
+					likeBtn.addClass('liked');
+				} else {
+					likeBtn.removeClass('liked');
+				}
+			}
+		});
+	}
+	
 	function showCommentsForCurrentWebM() {
 		
 		commentsDiv.find('.comment').not('#comment-template').remove();
@@ -391,7 +415,32 @@ $(function() {
 		$('#video-tags').text($(this).parent().find('.webm-tags').text().replace('[', '').replace(']', ''));
 		
 		showCommentsForCurrentWebM();
+		setCurrentLikeStatus();
 		
 		$('#webm-view-container').modal('show');
+	});
+	
+	$('#webm-view').on('click', '#like-btn', function() {
+		
+		var currentVideoId = $('#current-video-id').text();
+		$.ajax({
+			type: 'POST',
+			url: '/webm/like/' + currentVideoId,
+			success: function(response) {
+				
+                     console.log('Looks like "like" was toggled');
+                     console.log(response);
+                     
+                     var likeBtn = $('#like-btn');
+                     
+                     if (response.status && response.status == 'success') {
+                    	 
+                    	 if (response.message == 'added') {
+                    		 likeBtn.addClass('liked');
+         				} else {
+         					 likeBtn.removeClass('liked');
+         				}
+                     }
+			}});
 	});
 });

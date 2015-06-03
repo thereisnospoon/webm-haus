@@ -3,6 +3,7 @@ package my.thereisnospoon.webm.controllers;
 import my.thereisnospoon.webm.controllers.vo.ResponseVO;
 import my.thereisnospoon.webm.entities.User;
 import my.thereisnospoon.webm.entities.repos.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -44,8 +49,14 @@ public class SecurityController {
 		log.debug("Creating user: {}", user);
 		log.debug("Binding result for new user: {}", bindingResult);
 
-		if (bindingResult.hasFieldErrors()) {
-			return new ResponseVO("failed", "Found errors during validation", bindingResult.getFieldErrors());
+		if (bindingResult.hasErrors()) {
+			
+			List<FieldError> errors = new ArrayList<>(bindingResult.getFieldErrors());
+			
+			if (bindingResult.hasGlobalErrors() && Arrays.asList("UniqueUsername", "UniqueUsername.user").contains(bindingResult.getGlobalError().getCode())) {
+				errors.add(new FieldError("user", "username", bindingResult.getGlobalError().getDefaultMessage()));
+			}
+			return new ResponseVO("failed", "Found errors during validation", errors);
 		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));

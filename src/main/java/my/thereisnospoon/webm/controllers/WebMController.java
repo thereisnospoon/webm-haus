@@ -83,42 +83,48 @@ public class WebMController {
 	@Secured(User.ROLE_USER)
 	@RequestMapping(value = "/like/{webmId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVO likeVideo(@PathVariable String webmId, @AuthenticationPrincipal User user) {
+	public ResponseVO toggleLike(@PathVariable String webmId, @AuthenticationPrincipal User user) {
 
-		log.debug("Liking video with webmId = {} by user: {}", webmId, user);
-
+		log.debug("Toggling like for video with webmId = {} by user: {}", webmId, user);
+		
+		WriteResult result;
+		String responseDesc;
 		if (user.getLikedVideos().contains(webmId)) {
-			return new ResponseVO("failed", "You have already liked this video", null);
-		}
 
-		WriteResult result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", 1),
-				WebMPost.class);
+			result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", -1),
+					WebMPost.class);
+			
+			user.getLikedVideos().remove(webmId);
+			responseDesc = "removed";
+		} else {
+
+			result = mongoTemplate.updateFirst(query(Criteria.where("_id").is(webmId)), new Update().inc("likesCounter", 1),
+					WebMPost.class);
+			
+			user.getLikedVideos().add(webmId);
+			responseDesc = "added";
+		}
 
 		if (result.getN() == 0) {
 			return new ResponseVO("failed", "Video not found", null);
 		}
-
-		user.addToLikedVideos(webmId);
+		
 		userRepository.save(user);
 
-		return new ResponseVO("success", "Liked!", null);
+		return new ResponseVO("success", responseDesc, null);
 	}
-
+	
 	@Secured(User.ROLE_USER)
-	@RequestMapping(value = "unlike/{webmId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/isLiked/{webmId}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseVO unlikeVideo(@PathVariable String webmId, @AuthenticationPrincipal User user) {
-
-		log.debug("Unliking video with webmId = {} by user: {}", webmId, user.getUsername());
-
+	public ResponseVO isLikedByCurrentUser(@PathVariable String webmId, @AuthenticationPrincipal User user) {
+		
+		log.debug("Checking whether current user: {} has ever liked webmId = {}", user.getUsername(), webmId);
+		
 		if (user.getLikedVideos().contains(webmId)) {
-
-			user.removeFromLikedVideos(webmId);
-			userRepository.save(user);
-
-			return new ResponseVO("success", "Like removed!", null);
+			return new ResponseVO("success", "true", null);
 		} else {
-			return new ResponseVO("failed", "User has never liked the video", null);
+			return new ResponseVO("success", "false", null);
 		}
 	}
 

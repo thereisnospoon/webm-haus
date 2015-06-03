@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Document(collection = "users")
+@UniqueUsername
 public class User implements UserDetails {
 
 	public static final String ROLE_USER = "ROLE_USER";
@@ -24,7 +25,6 @@ public class User implements UserDetails {
 	@Pattern(regexp = "\\w+", message = "Username should contain only alphanumeric characters")
 	@Size(min = 4, max = 16, message = "Username length should be between 4 and 16 characters")
 	@NotBlank
-	@UniqueUsername
 	private String username;
 	private String description;
 	private Date createdWhen;

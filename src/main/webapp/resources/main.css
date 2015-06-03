@@ -438,3 +438,13 @@ video {
 	width: 83%;
 	text-indent: 1em;
 }
+
+
+#like-btn.liked {
+	color: #8f2821;
+	text-shadow: 0 0 1px #f37b73;
+}
+
+#like-btn.liked:hover {
+	color: #471410;
+}
