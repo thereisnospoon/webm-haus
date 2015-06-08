@@ -3,11 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<c:set var="vidsPerRow" value="${videos_in_row}"/>
+<c:set var="rows" value="${jspUtils.getRowsCount(vidsPerRow, fn:length(webms))}"/>
+
 <div id="videos-container">
 	<table>
-		<c:set var="vidsPerRow" value="${videos_in_row}"/>
-		<c:set var="rows" value="${jspUtils.getRowsCount(vidsPerRow, fn:length(webms))}"/>
-
 		<c:forEach begin="0" end="${rows - 1}" var="currentRow">
 			<tr>
 				<c:forEach begin="0" end="${vidsPerRow - 1}" var="currentCell">
@@ -22,5 +22,8 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<div id="load-more">Load more videos</div>
+
+	<c:if test="${load_more_button}">
+		<div id="load-more">Load more videos</div>
+	</c:if>
 </div>

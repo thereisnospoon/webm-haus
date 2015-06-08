@@ -383,6 +383,10 @@ video {
 	margin-bottom: 0.6em
 }
 
+.tag {
+	margin-right: 0.5em;
+}
+
 #comments-div {
 	background-color: #e2edff;
 	height: 80%;

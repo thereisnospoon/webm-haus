@@ -7,6 +7,10 @@ public class JSPUtilsService {
 
 	public int getRowsCount(int rowSize, int total) {
 
+		if (total == 0) {
+			return 1;
+		}
+
 		int result = total / rowSize;
 		if (total % rowSize > 0) {
 			result++;
