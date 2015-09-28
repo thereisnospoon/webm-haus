@@ -1,29 +1,29 @@
 package my.thereisnospoon.webm.controllers;
 
-import com.mongodb.gridfs.GridFSFile;
-import my.thereisnospoon.webm.entities.User;
-import my.thereisnospoon.webm.entities.WebMPost;
-import my.thereisnospoon.webm.entities.repos.WebMRepository;
-import my.thereisnospoon.webm.services.video.impl.VideoServiceImpl;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.gridfs.GridFsTemplate;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+//import com.mongodb.gridfs.GridFSFile;
+//import my.thereisnospoon.webm.entities.User;
+//import my.thereisnospoon.webm.entities.WebMPost;
+//import my.thereisnospoon.webm.entities.repos.WebMRepository;
+//import my.thereisnospoon.webm.services.video.impl.VideoServiceImpl;
+//import org.apache.commons.codec.digest.DigestUtils;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+//import org.springframework.http.MediaType;
+//import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.util.*;
-
-import static org.springframework.data.mongodb.core.query.Query.query;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
+//import org.springframework.web.multipart.MultipartFile;
+//
+//import javax.servlet.http.HttpServletRequest;
+//import java.io.ByteArrayInputStream;
+//import java.io.IOException;
+//import java.time.ZonedDateTime;
+//import java.util.*;
+//
+//import static org.springframework.data.mongodb.core.query.Query.query;
+//import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Controller
 @RequestMapping("/upload")

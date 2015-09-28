@@ -6,7 +6,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			../../resources/webm-config.xml
+			webm-config.xml
 		</param-value>
 	</context-param>
 

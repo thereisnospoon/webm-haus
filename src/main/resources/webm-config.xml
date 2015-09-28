@@ -3,7 +3,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns="http://www.springframework.org/schema/beans"
 
@@ -15,8 +14,6 @@
 							http://www.springframework.org/schema/mvc/spring-mvc.xsd
 							http://www.springframework.org/schema/data/mongo
 							http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
-							http://www.springframework.org/schema/security
-							http://www.springframework.org/schema/security/spring-security.xsd
 							http://www.springframework.org/schema/aop
 							http://www.springframework.org/schema/aop/spring-aop.xsd">
 
@@ -31,9 +28,7 @@
 	</mvc:annotation-driven>
 
 	<mvc:resources mapping="/resources/**" location="/resources/"/>
-	<context:component-scan base-package="my.thereisnospoon.webm">
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-	</context:component-scan>
+	<context:component-scan base-package="my.thereisnospoon.webm"/>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -62,46 +57,10 @@
 	                  username="system_user"
 	                  password="n0age"/>
 
-	<mongo:repositories base-package="my.thereisnospoon.webm.entities.repos"/>
-
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg ref="mongoDbFactory"/>
-	</bean>
-
 	<bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="converter" />
 	</bean>
-
-	<!--<security:global-method-security secured-annotations="enabled"/>-->
-
-	<bean id="userDetailsService" class="my.thereisnospoon.webm.security.MongoUserDetailsService"/>
-
-	<bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
-	<bean id="daoAuthenticationProvider"  class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<property name="userDetailsService" ref="userDetailsService"/>
-		<property name="passwordEncoder" ref="bcryptEncoder"/>
-	</bean>
-
-	<security:global-method-security secured-annotations="enabled"/>
-
-	<security:authentication-manager>
-		<security:authentication-provider ref="daoAuthenticationProvider"/>
-	</security:authentication-manager>
-
-	<security:http pattern="/resources" security="none"/>
-
-	<security:http use-expressions="true">
-		<security:intercept-url pattern="/WEB-INF/views" access="permitAll"/>
-		<security:form-login login-page="/security/login-page"
-		                     login-processing-url="/security/sign-in"
-		                     authentication-failure-url="/security/auth-fail"
-		                     default-target-url="/security/default-target"
-		                     always-use-default-target="true"/>
-		<security:logout logout-url="/security/j_spring_security_logout" logout-success-url="/"/>
-		<security:csrf disabled="true"/>
-	</security:http>
 
 	<bean id="validator"
 	      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
