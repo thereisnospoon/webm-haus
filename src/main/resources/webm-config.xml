@@ -90,10 +90,10 @@
 		<security:authentication-provider ref="daoAuthenticationProvider"/>
 	</security:authentication-manager>
 
-	<security:http pattern="/resources/**" security="none"/>
+	<security:http pattern="/resources" security="none"/>
 
 	<security:http use-expressions="true">
-		<security:intercept-url pattern="/**" access="permitAll"/>
+		<security:intercept-url pattern="/WEB-INF/views" access="permitAll"/>
 		<security:form-login login-page="/security/login-page"
 		                     login-processing-url="/security/sign-in"
 		                     authentication-failure-url="/security/auth-fail"

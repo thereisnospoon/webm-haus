@@ -1,9 +1,16 @@
-package my.thereisnospoon.webm.services;
+package my.thereisnospoon.webm.services.video.impl;
 
+import com.mongodb.gridfs.GridFSFile;
+import my.thereisnospoon.webm.entities.ImmutableVideo;
+import my.thereisnospoon.webm.entities.Video;
+import my.thereisnospoon.webm.services.video.VideoService;
+import my.thereisnospoon.webm.services.video.exception.VideoAlreadyExistsException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -13,35 +20,64 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Gets video-file meta information
- */
-@Service
-public class FFMPEGService {
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
-	private static final Logger log = LoggerFactory.getLogger(FFMPEGService.class);
+@Service
+public class VideoServiceImpl implements VideoService {
+
+	private static final Logger log = LoggerFactory.getLogger(VideoServiceImpl.class);
 
 	private static final Pattern DURATION_PATTERN = Pattern.compile("Duration: (\\d{2}):(\\d{2}):(\\d{2})");
 
+	@Value("${ffmpeg}")
 	private String ffmpegLocation;
+
+	@Value("${ffprobe}")
 	private String ffprobeLocation;
+
+	@Value("${thumbnail_location}")
 	private String thumbnailLocation;
+
+	@Value("${temp_files_location}")
 	private String tempFolderLocation;
 
 	@Autowired
-	public FFMPEGService(@Value("${ffmpeg}") String ffmpegLocation,
-	                     @Value("${ffprobe}") String ffprobeLocation,
-	                     @Value("${thumbnail_location}") String thumbnailLocation,
-	                     @Value("${temp_files_location}") String tempFolderLocation) {
+	private GridFsTemplate gridFsTemplate;
 
-		this.tempFolderLocation = tempFolderLocation;
-		this.ffmpegLocation = ffmpegLocation;
-		this.ffprobeLocation = ffprobeLocation;
-		this.thumbnailLocation = thumbnailLocation;
+	@Override
+	public Video processAndSaveVideo(byte[] videoData) throws Exception {
 
-		log.debug("FFMPEG Service constructed with: ffmpegLocation = {}; " +
-				"ffprobeLocation = {}; thumbnailLocation = {}; tempFolderLocation = {}",
-				ffmpegLocation, ffprobeLocation, thumbnailLocation, tempFolderLocation);
+		String videoHash = calculateDataHash(videoData);
+		String tempVideoFilePath = saveFileInTempFolder(videoData, videoHash);
+		int videoDuration = getVideoDuration(tempVideoFilePath);
+		byte[] thumbnailData = getThumbnail(tempVideoFilePath, videoHash);
+
+		deleteFileFromTempFolder(videoHash);
+		ensureVideoUniqueness(videoHash);
+
+		String videoId = saveDataToGridFS(videoData, ContentType.VIDEO);
+		String thumbnailId = saveDataToGridFS(thumbnailData, ContentType.IMAGE);
+
+		return ImmutableVideo.builder().duration(videoDuration)
+				.md5Hash(videoHash).thumbnailId(thumbnailId).id(videoId).build();
+	}
+
+	private String calculateDataHash(byte[] data) {
+		return DigestUtils.md5Hex(data);
+	}
+
+	private void ensureVideoUniqueness(String videoHash) {
+
+		if (gridFsTemplate.findOne(query(where("md5").is(videoHash).and("contentType").is(ContentType.VIDEO))) != null) {
+			throw new VideoAlreadyExistsException();
+		}
+	}
+
+	private String saveDataToGridFS(byte[] data, ContentType contentType) {
+
+		GridFSFile storedFile = gridFsTemplate.store(new ByteArrayInputStream(data), "", "video");
+		return storedFile.getId().toString();
 	}
 
 	/**
@@ -50,7 +86,7 @@ public class FFMPEGService {
 	 * @return  duration in seconds
 	 * @throws Exception
 	 */
-	public int getVideoDuration(String videoFilePath) throws Exception {
+	private int getVideoDuration(String videoFilePath) throws Exception {
 
 		log.debug("Trying to get duration of {}", videoFilePath);
 
@@ -88,7 +124,7 @@ public class FFMPEGService {
 	 * @return  generated thumbnail as byte[] array
 	 * @throws Exception
 	 */
-	public byte[] getThumbnail(String videoFilePath, String videoHash) throws Exception {
+	private byte[] getThumbnail(String videoFilePath, String videoHash) throws Exception {
 
 		log.debug("Trying to get thumbnail for: {}", videoFilePath);
 
@@ -118,10 +154,10 @@ public class FFMPEGService {
 	 * Creates file in temporary folder
 	 * @param fileData  file binary data
 	 * @param hash  file's md5 hash that is being used as file name
-	 * @return  absolute path to created path
+	 * @return  absolute path to created file
 	 * @throws IOException
 	 */
-	public String saveFileInTempFolder(byte[] fileData, String hash) throws IOException {
+	private String saveFileInTempFolder(byte[] fileData, String hash) throws IOException {
 
 		File tempFile = new File(tempFolderLocation, hash);
 		if (tempFile.exists()) {
@@ -144,7 +180,7 @@ public class FFMPEGService {
 	 * @return  true if deletion was successful
 	 * @throws IOException
 	 */
-	public boolean deleteFileFromTempFolder(String fileHash) throws IOException {
+	private boolean deleteFileFromTempFolder(String fileHash) throws IOException {
 
 		File tempFile = new File(tempFolderLocation, fileHash);
 		if (tempFile.exists()) {

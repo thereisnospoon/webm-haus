@@ -1,4 +1,4 @@
-package my.thereisnospoon.webm;
+package my.thereisnospoon.webm.startup;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

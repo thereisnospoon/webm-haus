@@ -15,3 +15,5 @@ build
 *.webm
 app_temp_data
 /bin/
+generated
+generated_tests

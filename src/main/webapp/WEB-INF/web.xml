@@ -6,7 +6,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			WEB-INF/webm-config.xml
+			../../resources/webm-config.xml
 		</param-value>
 	</context-param>
 
@@ -62,7 +62,7 @@
 
 	<context-param>
 		<param-name>contextInitializerClasses</param-name>
-		<param-value>my.thereisnospoon.webm.ApplicationInitializer</param-value>
+		<param-value>my.thereisnospoon.webm.startup.ApplicationInitializer</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

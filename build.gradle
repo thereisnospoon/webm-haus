@@ -1,40 +1,64 @@
+plugins {
+	id 'org.inferred.processors' version '1.1'
+}
+
 apply plugin: 'war'
 
 repositories {
     mavenCentral()
 }
 
-def spring_version = '4.1.6.RELEASE'
-def spring_security_version = '4.0.1.RELEASE'
+
+sourceSets {
+	generated {
+		java {
+			srcDir 'src/generated'
+		}
+	}
+}
+
+def springVersion = '4.1.6.RELEASE'
+def springSecurityVersion = '4.0.1.RELEASE'
+def luceneVersion = '5.3.0'
 def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-web-9.0.0.Beta2\\standalone\\deployments'
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.12',
+		    'org.immutables:value:2.0.21',
+		    'org.hibernate:hibernate-validator:4.3.2.Final',
+		    'org.ocpsoft.prettytime:prettytime:4.0.0.Final',
+
 		    'javax.servlet:javax.servlet-api:3.1.0',
-            "org.springframework:spring-context:${spring_version}",
-            "org.springframework:spring-webmvc:${spring_version}",
+		    'javax.servlet:jstl:1.2',
+
+            "org.springframework:spring-context:${springVersion}",
+            "org.springframework:spring-webmvc:${springVersion}",
+		    "org.springframework:spring-aspects:${springVersion}",
+
 		    'org.springframework.data:spring-data-mongodb:1.7.0.RELEASE',
+
+		    "org.springframework.security:spring-security-web:${springSecurityVersion}",
+		    "org.springframework.security:spring-security-config:${springSecurityVersion}",
+		    "org.springframework.security:spring-security-taglibs:${springSecurityVersion}",
+
             'com.fasterxml.jackson.core:jackson-databind:2.4.2',
-            'javax.servlet:jstl:1.2',
+
             'org.apache.commons:commons-lang3:3.3.2',
             'commons-io:commons-io:2.4',
 		    'commons-codec:commons-codec:1.10',
-		    "org.springframework.security:spring-security-web:${spring_security_version}",
-		    "org.springframework.security:spring-security-config:${spring_security_version}",
-		    "org.springframework.security:spring-security-taglibs:${spring_security_version}",
-		    "org.springframework:spring-aspects:${spring_version}",
-		    'org.hibernate:hibernate-validator:4.3.2.Final',
-		    'org.ocpsoft.prettytime:prettytime:4.0.0.Final',
-		    'org.apache.lucene:lucene-core:5.3.0',
-		    'org.apache.lucene:lucene-analyzers-common:5.3.0',
-		    'org.apache.lucene:lucene-queryparser:5.3.0'
+
+		    "org.apache.lucene:lucene-core:${luceneVersion}",
+		    "org.apache.lucene:lucene-analyzers-common:${luceneVersion}",
+		    "org.apache.lucene:lucene-queryparser:${luceneVersion}"
+
 
 	testCompile 'junit:junit:4.11',
 		    'org.mockito:mockito-all:1.9.5',
             'javax.el:javax.el-api:2.2.4',
-            'org.glassfish.web:javax.el:2.2.4'
+            'org.glassfish.web:javax.el:2.2.4',
+			"org.springframework:spring-test:${springVersion}"
 
-	testRuntime 'org.slf4j:slf4j-log4j12:1.7.12'
+	processor 'org.immutables:value:2.0.21'
 }
 
 task copyToDeploymentFolder(type: Copy, dependsOn: ['clean', 'war']) {
