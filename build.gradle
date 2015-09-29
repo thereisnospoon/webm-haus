@@ -12,7 +12,7 @@ repositories {
 sourceSets {
 	generated {
 		java {
-			srcDir 'src/generated'
+			srcDir 'src/generated/java'
 		}
 	}
 }

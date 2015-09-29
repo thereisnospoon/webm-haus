@@ -3,6 +3,8 @@ package my.thereisnospoon.webm.services.video.impl;
 import com.mongodb.gridfs.GridFSFile;
 import my.thereisnospoon.webm.entities.ImmutableVideo;
 import my.thereisnospoon.webm.entities.Video;
+import my.thereisnospoon.webm.services.gridfs.ContentType;
+import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import my.thereisnospoon.webm.services.video.VideoService;
 import my.thereisnospoon.webm.services.video.exception.VideoAlreadyExistsException;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -19,9 +20,6 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -43,7 +41,7 @@ public class VideoServiceImpl implements VideoService {
 	private String tempFolderLocation;
 
 	@Autowired
-	private GridFsTemplate gridFsTemplate;
+	private GridFsService gridFsService;
 
 	@Override
 	public Video processAndSaveVideo(byte[] videoData) throws Exception {
@@ -56,11 +54,20 @@ public class VideoServiceImpl implements VideoService {
 		deleteFileFromTempFolder(videoHash);
 		ensureVideoUniqueness(videoHash);
 
-		String videoId = saveDataToGridFS(videoData, ContentType.VIDEO);
-		String thumbnailId = saveDataToGridFS(thumbnailData, ContentType.IMAGE);
+		GridFSFile videoFileInDB = gridFsService.storeData(videoData, ContentType.VIDEO);
+		String videoId = videoFileInDB.getId().toString();
+		Long videoSize = videoFileInDB.getLength();
 
-		return ImmutableVideo.builder().duration(videoDuration)
-				.md5Hash(videoHash).thumbnailId(thumbnailId).id(videoId).build();
+		GridFSFile thumbnailFileInDB = gridFsService.storeData(thumbnailData, ContentType.IMAGE);
+		String thumbnailId = thumbnailFileInDB.getId().toString();
+
+		return ImmutableVideo.builder()
+				.duration(videoDuration)
+				.md5Hash(videoHash)
+				.thumbnailId(thumbnailId)
+				.id(videoId)
+				.size(videoSize)
+				.build();
 	}
 
 	private String calculateDataHash(byte[] data) {
@@ -69,15 +76,9 @@ public class VideoServiceImpl implements VideoService {
 
 	private void ensureVideoUniqueness(String videoHash) {
 
-		if (gridFsTemplate.findOne(query(where("md5").is(videoHash).and("contentType").is(ContentType.VIDEO))) != null) {
+		if (gridFsService.isDataUnique(videoHash, ContentType.VIDEO)) {
 			throw new VideoAlreadyExistsException();
 		}
-	}
-
-	private String saveDataToGridFS(byte[] data, ContentType contentType) {
-
-		GridFSFile storedFile = gridFsTemplate.store(new ByteArrayInputStream(data), "", "video");
-		return storedFile.getId().toString();
 	}
 
 	/**

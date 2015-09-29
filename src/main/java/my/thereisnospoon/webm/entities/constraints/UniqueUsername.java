@@ -7,9 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy=UniqueUsernameValidator.class)
+//@Target({ElementType.TYPE})
+//@Retention(RetentionPolicy.RUNTIME)
+//@Constraint(validatedBy=UniqueUsernameValidator.class)
 public @interface UniqueUsername {
 
 	String message() default "Username is already taken";
