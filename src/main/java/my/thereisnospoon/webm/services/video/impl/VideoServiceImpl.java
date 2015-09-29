@@ -34,9 +34,6 @@ public class VideoServiceImpl implements VideoService {
 	@Value("${ffprobe}")
 	private String ffprobeLocation;
 
-	@Value("${thumbnail_location}")
-	private String thumbnailLocation;
-
 	@Value("${temp_files_location}")
 	private String tempFolderLocation;
 
@@ -76,7 +73,7 @@ public class VideoServiceImpl implements VideoService {
 
 	private void ensureVideoUniqueness(String videoHash) {
 
-		if (gridFsService.isDataUnique(videoHash, ContentType.VIDEO)) {
+		if (!gridFsService.isDataUnique(videoHash, ContentType.VIDEO)) {
 			throw new VideoAlreadyExistsException();
 		}
 	}
@@ -129,7 +126,7 @@ public class VideoServiceImpl implements VideoService {
 
 		log.debug("Trying to get thumbnail for: {}", videoFilePath);
 
-		String outputImageAbsolutePath = thumbnailLocation + File.separator + videoHash + ".png";
+		String outputImageAbsolutePath = tempFolderLocation + File.separator + videoHash + ".png";
 		ProcessBuilder processBuilder = new ProcessBuilder(ffmpegLocation,
 				"-i", videoFilePath, "-s", "320x180", "-frames:v", "1", outputImageAbsolutePath);
 
