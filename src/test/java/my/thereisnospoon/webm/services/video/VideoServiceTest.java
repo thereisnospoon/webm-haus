@@ -40,17 +40,17 @@ public class VideoServiceTest {
 	public void cleanUp() {
 
 		if (video != null) {
-			gridFsService.deleteData(video.id());
-			gridFsService.deleteData(video.thumbnailId());
+			gridFsService.deleteData(video.getId());
+			gridFsService.deleteData(video.getThumbnailId());
 		}
 	}
 
 	@Test
 	public void testStoredVideoData() throws Exception {
 
-		assertTrue(video.size() > 0);
-		assertNotNull(video.id());
-		assertNotNull(video.thumbnailId());
-		assertTrue(video.duration() > 0);
+		assertTrue(video.getSize() > 0);
+		assertNotNull(video.getId());
+		assertNotNull(video.getThumbnailId());
+		assertTrue(video.getDuration() > 0);
 	}
 }
