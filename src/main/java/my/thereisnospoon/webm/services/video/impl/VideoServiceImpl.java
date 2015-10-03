@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,6 +65,7 @@ public class VideoServiceImpl implements VideoService {
 				.thumbnailId(thumbnailId)
 				.id(videoId)
 				.size(videoSize)
+				.uploadDate(LocalDate.now())
 				.build();
 	}
 
