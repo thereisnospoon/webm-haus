@@ -8,19 +8,11 @@ repositories {
     mavenCentral()
 }
 
-
-sourceSets {
-	generated {
-		java {
-			srcDir 'src/generated/java'
-		}
-	}
-}
-
 def springVersion = '4.1.6.RELEASE'
 def springSecurityVersion = '4.0.1.RELEASE'
 def luceneVersion = '5.3.0'
 def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-web-9.0.0.Beta2\\standalone\\deployments'
+def generatedSourcesFolder = 'src/generated/java'
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.12',
@@ -65,4 +57,14 @@ task copyToDeploymentFolder(type: Copy, dependsOn: ['clean', 'war']) {
 	from 'build/libs'
 	into localDeploymentFolder
 	include ('*.war')
+}
+
+task cleanGeneratedSources() {
+	new File(generatedSourcesFolder).delete()
+}
+
+task copyGeneratedSources(type: Copy, dependsOn: ['cleanGeneratedSources', 'compileJava']) {
+	from "$buildDir/classes/main"
+	into generatedSourcesFolder
+	include '**/*.java'
 }
