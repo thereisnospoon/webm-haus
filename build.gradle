@@ -33,9 +33,10 @@ dependencies {
 		    "org.springframework.security:spring-security-config:${springSecurityVersion}",
 		    "org.springframework.security:spring-security-taglibs:${springSecurityVersion}",
 
-            'com.fasterxml.jackson.core:jackson-databind:2.4.2',
+		    'com.fasterxml.jackson.core:jackson-databind:2.6.3',
+		    'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.3',
 
-            'org.apache.commons:commons-lang3:3.3.2',
+		    'org.apache.commons:commons-lang3:3.3.2',
             'commons-io:commons-io:2.4',
 		    'commons-codec:commons-codec:1.10',
 

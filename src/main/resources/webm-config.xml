@@ -65,6 +65,8 @@
 	<bean id="validator"
 	      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
+	<bean class="my.thereisnospoon.webm.startup.DefaultBeanPostProcessor"/>
+
 	<beans profile="windows">
 		<context:property-placeholder location="classpath:windows.application.properties"/>
 	</beans>
