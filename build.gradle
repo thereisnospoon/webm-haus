@@ -59,12 +59,16 @@ task copyToDeploymentFolder(type: Copy, dependsOn: ['clean', 'war']) {
 	include ('*.war')
 }
 
-task cleanGeneratedSources() {
-	new File(generatedSourcesFolder).delete()
+task cleanGeneratedSources(type: Delete) {
+	delete generatedSourcesFolder
 }
 
-task copyGeneratedSources(type: Copy, dependsOn: ['cleanGeneratedSources', 'compileJava']) {
+clean.dependsOn << cleanGeneratedSources
+
+task copyGeneratedSources(type: Copy, dependsOn: ['cleanGeneratedSources']) {
 	from "$buildDir/classes/main"
 	into generatedSourcesFolder
 	include '**/*.java'
 }
+
+processResources.dependsOn << copyGeneratedSources
