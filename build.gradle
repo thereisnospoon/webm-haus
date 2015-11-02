@@ -39,10 +39,14 @@ dependencies {
 		    'org.apache.commons:commons-lang3:3.3.2',
             'commons-io:commons-io:2.4',
 		    'commons-codec:commons-codec:1.10',
+		    'com.google.code.findbugs:jsr305:3.0.1',
 
-		    "org.apache.lucene:lucene-core:${luceneVersion}",
+			"org.apache.lucene:lucene-core:${luceneVersion}",
 		    "org.apache.lucene:lucene-analyzers-common:${luceneVersion}",
-		    "org.apache.lucene:lucene-queryparser:${luceneVersion}"
+		    "org.apache.lucene:lucene-queryparser:${luceneVersion}",
+
+		    'redis.clients:jedis:2.7.3',
+		    'org.springframework.data:spring-data-redis:1.6.0.RELEASE'
 
 
 	testCompile 'junit:junit:4.11',

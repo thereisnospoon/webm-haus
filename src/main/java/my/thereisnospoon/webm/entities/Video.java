@@ -9,12 +9,12 @@ import java.time.LocalDate;
 @Value.Immutable
 @JsonSerialize(as = ImmutableVideo.class)
 @JsonDeserialize(as = ImmutableVideo.class)
-public abstract class Video {
+public interface Video {
 
-	public abstract String getId();
-	public abstract String getMd5Hash();
-	public abstract Integer getDuration();
-	public abstract String getThumbnailId();
-	public abstract Long getSize();
-	public abstract LocalDate getUploadDate();
+	String getId();
+	String getMd5Hash();
+	Integer getDuration();
+	String getThumbnailId();
+	Long getSize();
+	LocalDate getUploadDate();
 }
