@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 @Service
 public class UserDaoImpl implements UserDao {
 
-	@Resource(name = "redisTemplate")
+	@Resource(name = "userRedisTemplate")
 	private HashOperations<String,String,User> redisHashOperations;
 
 	@Value("${redis.collections.users}")

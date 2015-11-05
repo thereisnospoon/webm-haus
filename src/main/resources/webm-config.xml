@@ -71,15 +71,18 @@
 		<property name="usePool" value="true"/>
 	</bean>
 
-	<bean id="genericJackson2JsonRedisSerializer" class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
-
 	<bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
 
-	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+	<bean id="userRedisSerializer" class="org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer">
+		<constructor-arg value="my.thereisnospoon.webm.entities.User"/>
+	</bean>
+
+	<bean id="userRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory"/>
-		<property name="defaultSerializer" ref="genericJackson2JsonRedisSerializer"/>
+		<property name="enableDefaultSerializer" value="false"/>
 		<property name="keySerializer" ref="stringRedisSerializer"/>
 		<property name="hashKeySerializer" ref="stringRedisSerializer"/>
+		<property name="hashValueSerializer" ref="userRedisSerializer"/>
 	</bean>
 
 	<beans profile="windows">

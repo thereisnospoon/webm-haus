@@ -12,9 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.StringWriter;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/webm-config.xml")
@@ -44,12 +43,8 @@ public class UserDaoImplTest {
 	@Test
 	public void shouldSaveToDb() throws Exception {
 
-//		testedInstance.saveToDb(user);
-//		assertTrue(testedInstance.exists(user.getUsername()));
-
-		StringWriter writer = new StringWriter();
-		objectMapper.writeValue(writer, user);
-		objectMapper.readValue(writer.toString(), ImmutableUser.class);
+		testedInstance.saveToDb(user);
+		assertTrue(testedInstance.exists(user.getUsername()));
 	}
 
 	@Test
