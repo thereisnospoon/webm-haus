@@ -1,6 +1,6 @@
 package my.thereisnospoon.webm.services.dao;
 
-import my.thereisnospoon.webm.entities.User;
+import my.thereisnospoon.webm.vo.User;
 
 public interface UserDao {
 

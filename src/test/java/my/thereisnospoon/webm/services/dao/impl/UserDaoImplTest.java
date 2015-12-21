@@ -1,8 +1,8 @@
 package my.thereisnospoon.webm.services.dao.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import my.thereisnospoon.webm.entities.ImmutableUser;
-import my.thereisnospoon.webm.entities.User;
+import my.thereisnospoon.webm.vo.ImmutableUser;
+import my.thereisnospoon.webm.vo.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

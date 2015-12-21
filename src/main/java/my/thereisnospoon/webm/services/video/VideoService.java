@@ -1,6 +1,6 @@
 package my.thereisnospoon.webm.services.video;
 
-import my.thereisnospoon.webm.entities.Video;
+import my.thereisnospoon.webm.vo.Video;
 
 public interface VideoService {
 

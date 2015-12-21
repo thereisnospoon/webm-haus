@@ -1,8 +1,8 @@
 package my.thereisnospoon.webm.services.video.impl;
 
 import com.mongodb.gridfs.GridFSFile;
-import my.thereisnospoon.webm.entities.ImmutableVideo;
-import my.thereisnospoon.webm.entities.Video;
+import my.thereisnospoon.webm.vo.ImmutableVideo;
+import my.thereisnospoon.webm.vo.Video;
 import my.thereisnospoon.webm.services.gridfs.ContentType;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import my.thereisnospoon.webm.services.video.VideoService;

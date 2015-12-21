@@ -1,6 +1,6 @@
 package my.thereisnospoon.webm.services.video;
 
-import my.thereisnospoon.webm.entities.Video;
+import my.thereisnospoon.webm.vo.Video;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;

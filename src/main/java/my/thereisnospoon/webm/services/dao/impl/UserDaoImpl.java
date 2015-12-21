@@ -1,6 +1,6 @@
 package my.thereisnospoon.webm.services.dao.impl;
 
-import my.thereisnospoon.webm.entities.User;
+import my.thereisnospoon.webm.vo.User;
 import my.thereisnospoon.webm.services.dao.UserDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
