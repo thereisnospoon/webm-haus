@@ -1,12 +1,11 @@
 package my.thereisnospoon.webm.services.video.impl;
 
 import com.mongodb.gridfs.GridFSFile;
-import my.thereisnospoon.webm.vo.ImmutableVideo;
-import my.thereisnospoon.webm.vo.Video;
 import my.thereisnospoon.webm.services.gridfs.ContentType;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import my.thereisnospoon.webm.services.video.VideoService;
 import my.thereisnospoon.webm.services.video.exception.VideoAlreadyExistsException;
+import my.thereisnospoon.webm.vo.Video;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -59,7 +63,8 @@ public class VideoServiceImpl implements VideoService {
 		GridFSFile thumbnailFileInDB = gridFsService.storeData(thumbnailData, ContentType.IMAGE);
 		String thumbnailId = thumbnailFileInDB.getId().toString();
 
-		return ImmutableVideo.builder()
+
+		return Video.builder()
 				.duration(videoDuration)
 				.md5Hash(videoHash)
 				.thumbnailId(thumbnailId)

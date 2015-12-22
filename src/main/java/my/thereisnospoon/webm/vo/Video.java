@@ -1,20 +1,18 @@
 package my.thereisnospoon.webm.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.Value;
 
 import java.time.LocalDate;
 
-@Value.Immutable
-@JsonSerialize(as = ImmutableVideo.class)
-@JsonDeserialize(as = ImmutableVideo.class)
-public interface Video {
+@Builder
+@Value
+public class Video {
 
-	String getId();
-	String getMd5Hash();
-	Integer getDuration();
-	String getThumbnailId();
-	Long getSize();
-	LocalDate getUploadDate();
+	private String id;
+	private String md5Hash;
+	private Integer duration;
+	private String thumbnailId;
+	private Long size;
+	private LocalDate uploadDate;
 }
