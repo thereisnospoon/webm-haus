@@ -4,6 +4,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns="http://www.springframework.org/schema/beans"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -15,7 +16,9 @@
 							http://www.springframework.org/schema/data/mongo
 							http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 							http://www.springframework.org/schema/aop
-							http://www.springframework.org/schema/aop/spring-aop.xsd">
+							http://www.springframework.org/schema/aop/spring-aop.xsd
+							http://www.springframework.org/schema/tx
+							http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
@@ -64,6 +67,26 @@
 
 	<bean id="validator"
 	      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="persistenceXmlLocation" value="/persistence.xml"/>
+		<property name="packagesToScan" value="my.thereisnospoon.webm"/>
+		<property name="persistenceProviderClass" value="org.hibernate.jpa.HibernatePersistenceProvider"/>
+	</bean>
+
+	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager"/>
 
 	<beans profile="windows">
 		<context:property-placeholder location="classpath:windows.application.properties"/>

@@ -5,14 +5,13 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-	<persistence-unit name="webm" transaction-type="JTA">
+	<persistence-unit name="webm" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
-			<property name="hibernate.hbm2ddl.auto" value="validate"/>
+			<property name="hibernate.hbm2ddl.auto" value="create"/>
 			<property name="hibernate.format_sql" value="true"/>
 
 			<property name="hibernate.cache.use_second_level_cache" value="true"/>

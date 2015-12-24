@@ -1,25 +1,18 @@
-buildscript {
-	repositories {
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-	}
-	dependencies {
-		classpath "gradle.plugin.net.franz-becker:gradle-lombok:1.5"
-	}
+plugins {
+	id "net.franz-becker.gradle-lombok" version "1.5"
 }
 
 apply plugin: 'war'
-apply plugin: "net.franz-becker.gradle-lombok"
 
 repositories {
     mavenCentral()
 }
 
-def springVersion = '4.1.6.RELEASE'
+def springVersion = '4.2.4.RELEASE'
 def springSecurityVersion = '4.0.1.RELEASE'
 def luceneVersion = '5.3.0'
-def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-web-9.0.0.Beta2\\standalone\\deployments'
+def hibernateVersion = '5.0.6.Final'
+def localDeploymentFolder = 'C:\\Users\\nagrizolich\\Desktop\\wildfly-servlet-10.0.0.CR5\\standalone\\deployments'
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.12',
@@ -33,6 +26,7 @@ dependencies {
             "org.springframework:spring-context:${springVersion}",
             "org.springframework:spring-webmvc:${springVersion}",
 		    "org.springframework:spring-aspects:${springVersion}",
+		    'org.springframework:spring-orm:4.2.4.RELEASE',
 
 		    'org.springframework.data:spring-data-mongodb:1.7.0.RELEASE',
 
@@ -52,8 +46,12 @@ dependencies {
 		    "org.apache.lucene:lucene-analyzers-common:${luceneVersion}",
 		    "org.apache.lucene:lucene-queryparser:${luceneVersion}",
 
-		    'redis.clients:jedis:2.7.3',
-		    'org.springframework.data:spring-data-redis:1.6.0.RELEASE'
+		    "org.hibernate:hibernate-core:${hibernateVersion}",
+		    "org.hibernate:hibernate-entitymanager:${hibernateVersion}",
+		    "org.hibernate:hibernate-ehcache:${hibernateVersion}",
+
+		    'org.postgresql:postgresql:9.4.1207',
+		    'javax.transaction:jta:1.1'
 
 
 	testCompile 'junit:junit:4.11',
