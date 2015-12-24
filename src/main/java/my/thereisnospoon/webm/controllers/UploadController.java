@@ -1,10 +1,9 @@
 package my.thereisnospoon.webm.controllers;
 
-import my.thereisnospoon.webm.vo.Video;
+import lombok.extern.slf4j.Slf4j;
 import my.thereisnospoon.webm.services.video.VideoService;
 import my.thereisnospoon.webm.services.video.exception.VideoAlreadyExistsException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import my.thereisnospoon.webm.vo.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Controller
 @RequestMapping("/upload")
 public class UploadController {
-
-	private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
 	@Autowired
 	private VideoService videoService;

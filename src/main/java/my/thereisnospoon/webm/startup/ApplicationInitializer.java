@@ -1,10 +1,10 @@
 package my.thereisnospoon.webm.startup;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
+@Slf4j
 public class ApplicationInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
 	private enum OS {
@@ -27,8 +27,6 @@ public class ApplicationInitializer implements ApplicationContextInitializer<Con
 
 		public abstract String getProfile();
 	}
-
-	private static final Logger log = LoggerFactory.getLogger(ApplicationInitializer.class);
 
 	@Override
 	public void initialize(ConfigurableApplicationContext applicationContext) {

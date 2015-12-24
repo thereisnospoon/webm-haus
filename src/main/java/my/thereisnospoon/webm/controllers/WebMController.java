@@ -3,8 +3,6 @@ package my.thereisnospoon.webm.controllers;
 import com.mongodb.gridfs.GridFSDBFile;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -23,8 +21,6 @@ import java.util.regex.Pattern;
 @Controller
 @RequestMapping("/webm")
 public class WebMController {
-
-	private static final Logger log = LoggerFactory.getLogger(WebMController.class);
 
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 

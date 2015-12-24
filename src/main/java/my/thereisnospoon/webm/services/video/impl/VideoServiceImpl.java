@@ -1,24 +1,18 @@
 package my.thereisnospoon.webm.services.video.impl;
 
 import com.mongodb.gridfs.GridFSFile;
+import lombok.extern.slf4j.Slf4j;
 import my.thereisnospoon.webm.services.gridfs.ContentType;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import my.thereisnospoon.webm.services.video.VideoService;
 import my.thereisnospoon.webm.services.video.exception.VideoAlreadyExistsException;
 import my.thereisnospoon.webm.vo.Video;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -26,10 +20,9 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Service
 public class VideoServiceImpl implements VideoService {
-
-	private static final Logger log = LoggerFactory.getLogger(VideoServiceImpl.class);
 
 	private static final Pattern DURATION_PATTERN = Pattern.compile("Duration: (\\d{2}):(\\d{2}):(\\d{2})");
 
