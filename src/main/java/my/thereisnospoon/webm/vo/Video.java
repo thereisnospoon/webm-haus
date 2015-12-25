@@ -27,6 +27,8 @@ public class Video {
 	private Long size;
 	private LocalDate uploadDate;
 
+	private Long viewsCounter = 0L;
+
 	@OneToOne
 	private User user;
 }

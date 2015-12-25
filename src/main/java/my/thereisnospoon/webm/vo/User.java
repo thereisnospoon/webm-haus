@@ -4,12 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
 import javax.annotation.Nullable;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -29,4 +35,10 @@ public class User {
 
 	@Nullable
 	private String encodedPassword;
+
+	@ElementCollection
+	@CollectionTable(name = "liked_videos", joinColumns = @JoinColumn(name = "username"))
+	@Column(name = "video_id")
+	@Singular
+	private Set<String> likedVideos;
 }

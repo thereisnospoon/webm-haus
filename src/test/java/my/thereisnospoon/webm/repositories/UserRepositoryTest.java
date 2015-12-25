@@ -35,7 +35,10 @@ public class UserRepositoryTest {
 		if (userRepository.exists(TEST_USERNAME)) {
 			userRepository.delete(TEST_USERNAME);
 		}
-		userRepository.save(new User(TEST_USERNAME, TEST_USER_EMAIL, null, null));
+		userRepository.save(User.builder()
+				.email(TEST_USER_EMAIL)
+				.username(TEST_USERNAME)
+				.build());
 	}
 
 	@After
