@@ -1,7 +1,7 @@
 package my.thereisnospoon.webm.services.video;
 
-import my.thereisnospoon.webm.vo.Video;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
+import my.thereisnospoon.webm.vo.Video;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/webm-config.xml")

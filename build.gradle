@@ -50,6 +50,7 @@ dependencies {
 		    "org.hibernate:hibernate-core:${hibernateVersion}",
 		    "org.hibernate:hibernate-entitymanager:${hibernateVersion}",
 		    "org.hibernate:hibernate-ehcache:${hibernateVersion}",
+		    "org.hibernate:hibernate-java8:${hibernateVersion}",
 
 		    'org.postgresql:postgresql:9.4.1207',
 		    'javax.transaction:jta:1.1'
