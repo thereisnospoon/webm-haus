@@ -58,7 +58,7 @@ public class VideoServiceImpl implements VideoService {
 	public void incrementViewsCounter(String videoId) {
 
 		Video video = videoRepository.findOne(videoId);
-		video.setViewsCounter(video.getViewsCounter() + 1L);
+		video.setViewsCounter(video.getViewsCounter() + 1);
 	}
 
 	@Override
@@ -66,6 +66,8 @@ public class VideoServiceImpl implements VideoService {
 
 		User user = userRepository.findOne(username);
 		user.getLikedVideos().add(videoId);
+		Video video = videoRepository.findOne(videoId);
+		video.setLikesCounter(video.getLikesCounter() + 1);
 	}
 
 	@Override
@@ -73,6 +75,8 @@ public class VideoServiceImpl implements VideoService {
 
 		User user = userRepository.findOne(username);
 		user.getLikedVideos().remove(videoId);
+		Video video = videoRepository.findOne(videoId);
+		video.setLikesCounter(video.getLikesCounter() - 1);
 	}
 
 	@Override

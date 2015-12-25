@@ -28,6 +28,7 @@ public class Video {
 	private LocalDate uploadDate;
 
 	private long viewsCounter;
+	private long likesCounter;
 
 	@OneToOne
 	private User user;
