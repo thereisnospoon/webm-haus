@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/webm-config.xml")
@@ -97,5 +98,13 @@ public class VideoServiceTest {
 		videoService.removeLikeFromVideo(video.getId(), TEST_USER);
 		User user = userRepository.findOne(TEST_USER);
 		assertFalse(user.getLikedVideos().contains(video.getId()));
+	}
+
+	@Test
+	public void shouldIncrementViewsCounter() {
+
+		videoService.incrementViewsCounter(video.getId());
+		Video retrievedVideo = videoRepository.findOne(video.getId());
+		assertEquals(1L, retrievedVideo.getViewsCounter());
 	}
 }

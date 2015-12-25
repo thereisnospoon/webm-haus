@@ -34,7 +34,9 @@
 	</mvc:annotation-driven>
 
 	<mvc:resources mapping="/resources/**" location="/resources/"/>
-	<context:component-scan base-package="my.thereisnospoon.webm"/>
+	<context:component-scan base-package="my.thereisnospoon.webm">
+		<context:exclude-filter type="regex" expression="my\.thereisnospoon\.webm\.repositories.*"/>
+	</context:component-scan>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>

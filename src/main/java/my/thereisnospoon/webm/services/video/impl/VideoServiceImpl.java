@@ -55,6 +55,13 @@ public class VideoServiceImpl implements VideoService {
 	private UserRepository userRepository;
 
 	@Override
+	public void incrementViewsCounter(String videoId) {
+
+		Video video = videoRepository.findOne(videoId);
+		video.setViewsCounter(video.getViewsCounter() + 1L);
+	}
+
+	@Override
 	public void likeVideo(String videoId, String username) {
 
 		User user = userRepository.findOne(username);
