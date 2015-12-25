@@ -31,28 +31,32 @@ public class UserRepositoryTest {
 
 	@Before
 	public void setUp() {
+
+		if (userRepository.exists(TEST_USERNAME)) {
+			userRepository.delete(TEST_USERNAME);
+		}
 		userRepository.save(new User(TEST_USERNAME, TEST_USER_EMAIL, null, null));
 	}
 
 	@After
 	public void cleanUp() {
-		if (userRepository.exists(TEST_USER_EMAIL)) {
-			userRepository.delete(TEST_USER_EMAIL);
+		if (userRepository.exists(TEST_USERNAME)) {
+			userRepository.delete(TEST_USERNAME);
 		}
 	}
 
 	@Test
 	public void shouldRetrieveTestUser() {
 
-		User testUser = userRepository.findOne(TEST_USER_EMAIL);
+		User testUser = userRepository.findOne(TEST_USERNAME);
 		assertEquals(TEST_USERNAME, testUser.getUsername());
 	}
 
 	@Test
 	public void shouldDeleteUser() {
 
-		assertTrue(userRepository.exists(TEST_USER_EMAIL));
-		userRepository.delete(TEST_USER_EMAIL);
-		assertFalse(userRepository.exists(TEST_USER_EMAIL));
+		assertTrue(userRepository.exists(TEST_USERNAME));
+		userRepository.delete(TEST_USERNAME);
+		assertFalse(userRepository.exists(TEST_USERNAME));
 	}
 }

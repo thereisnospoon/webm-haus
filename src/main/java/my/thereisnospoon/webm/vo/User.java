@@ -1,6 +1,7 @@
 package my.thereisnospoon.webm.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,11 +16,11 @@ import javax.persistence.Transient;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
 
-	private String username;
-
 	@Id
+	private String username;
 	private String email;
 
 	@Transient
