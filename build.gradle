@@ -27,6 +27,7 @@ dependencies {
             "org.springframework:spring-webmvc:${springVersion}",
 		    "org.springframework:spring-aspects:${springVersion}",
 		    'org.springframework:spring-orm:4.2.4.RELEASE',
+		    'org.springframework.data:spring-data-jpa:1.9.2.RELEASE',
 
 		    'org.springframework.data:spring-data-mongodb:1.7.0.RELEASE',
 
