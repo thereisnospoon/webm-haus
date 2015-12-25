@@ -2,16 +2,13 @@ package my.thereisnospoon.webm.services.gridfs;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
+import my.thereisnospoon.webm.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.DigestUtils;
 
 import java.io.IOException;
@@ -19,10 +16,7 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/webm-config.xml")
-@ActiveProfiles("windows")
-public class GridFsServiceTest {
+public class GridFsServiceTest extends AbstractIntegrationTest {
 
 	private static final Integer DATA_SIZE = 10_000;
 

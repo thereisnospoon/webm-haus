@@ -1,5 +1,6 @@
 package my.thereisnospoon.webm.services.video;
 
+import my.thereisnospoon.webm.AbstractIntegrationTest;
 import my.thereisnospoon.webm.repositories.UserRepository;
 import my.thereisnospoon.webm.repositories.VideoRepository;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
@@ -9,25 +10,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/webm-config.xml")
-@ActiveProfiles("windows")
-@Transactional
-@Commit
-public class VideoServiceTest {
+public class VideoServiceTest extends AbstractIntegrationTest {
 
 	private static final String TEST_VIDEO_NAME = "/test.webm";
 	private static final String TEST_USER = "video_service_test_user";

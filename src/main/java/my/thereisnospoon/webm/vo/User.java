@@ -41,4 +41,10 @@ public class User {
 	@Column(name = "video_id")
 	@Singular
 	private Set<String> likedVideos;
+
+	@ElementCollection
+	@CollectionTable(name = "liked_comments", joinColumns = @JoinColumn(name = "username"))
+	@Column(name = "comment_id")
+	@Singular
+	private Set<String> likedComments;
 }

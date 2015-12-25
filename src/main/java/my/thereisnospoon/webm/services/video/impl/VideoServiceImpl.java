@@ -65,18 +65,22 @@ public class VideoServiceImpl implements VideoService {
 	public void likeVideo(String videoId, String username) {
 
 		User user = userRepository.findOne(username);
-		user.getLikedVideos().add(videoId);
-		Video video = videoRepository.findOne(videoId);
-		video.setLikesCounter(video.getLikesCounter() + 1);
+		if (!user.getLikedVideos().contains(videoId)) {
+			user.getLikedVideos().add(videoId);
+			Video video = videoRepository.findOne(videoId);
+			video.setLikesCounter(video.getLikesCounter() + 1);
+		}
 	}
 
 	@Override
 	public void removeLikeFromVideo(String videoId, String username) {
 
 		User user = userRepository.findOne(username);
-		user.getLikedVideos().remove(videoId);
-		Video video = videoRepository.findOne(videoId);
-		video.setLikesCounter(video.getLikesCounter() - 1);
+		if (user.getLikedVideos().contains(videoId)) {
+			user.getLikedVideos().remove(videoId);
+			Video video = videoRepository.findOne(videoId);
+			video.setLikesCounter(video.getLikesCounter() - 1);
+		}
 	}
 
 	@Override
