@@ -7,9 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +27,6 @@ public class CommentsRepositoryTest extends AbstractIntegrationTest {
 		comment = commentsRepository.save(comment);
 
 		childComment = createComment();
-		childComment.setCommentAnsweredOn(comment);
 		childComment = commentsRepository.save(childComment);
 	}
 
@@ -36,7 +34,7 @@ public class CommentsRepositoryTest extends AbstractIntegrationTest {
 
 		return Comment.builder()
 				.text("text")
-				.timestamp(LocalDateTime.now())
+				.timestamp(new Date())
 				.username(TEST_USERNAME)
 				.videoId(TEST_VIDEO_ID)
 				.build();
@@ -52,13 +50,6 @@ public class CommentsRepositoryTest extends AbstractIntegrationTest {
 		if (commentsRepository.exists(comment.getId())) {
 			commentsRepository.delete(comment);
 		}
-	}
-
-	@Test
-	public void shouldRetrieveChildComment() {
-
-		Comment retrievedComment = commentsRepository.findOne(childComment.getId());
-		assertEquals(comment.getId(), retrievedComment.getCommentAnsweredOn().getId());
 	}
 
 	@Test

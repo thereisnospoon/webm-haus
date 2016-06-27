@@ -1,0 +1,18 @@
+video:
+  ffmpeg: ffmpeg
+  ffprobe: ffprobe
+  thumbnail_location: /home/app_user/thumbnails
+  temp_files_location: /home/app_user/tmp
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: webmhaus_keyspace
+
+endpoints:
+  health:
+    sensitive: false
+
+management:
+  security:
+    enabled: false

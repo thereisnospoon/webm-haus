@@ -8,7 +8,6 @@ import my.thereisnospoon.webm.services.gridfs.ContentType;
 import my.thereisnospoon.webm.services.gridfs.GridFsService;
 import my.thereisnospoon.webm.services.video.VideoService;
 import my.thereisnospoon.webm.services.video.exception.VideoAlreadyExistsException;
-import my.thereisnospoon.webm.vo.User;
 import my.thereisnospoon.webm.vo.Video;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,13 +35,13 @@ public class VideoServiceImpl implements VideoService {
 
 	private static final Pattern DURATION_PATTERN = Pattern.compile("Duration: (\\d{2}):(\\d{2}):(\\d{2})");
 
-	@Value("${ffmpeg}")
+	@Value("${video.ffmpeg}")
 	private String ffmpegLocation;
 
-	@Value("${ffprobe}")
+	@Value("${video.ffprobe}")
 	private String ffprobeLocation;
 
-	@Value("${temp_files_location}")
+	@Value("${video.temp_files_location}")
 	private String tempFolderLocation;
 
 	@Autowired
@@ -59,28 +58,6 @@ public class VideoServiceImpl implements VideoService {
 
 		Video video = videoRepository.findOne(videoId);
 		video.setViewsCounter(video.getViewsCounter() + 1);
-	}
-
-	@Override
-	public void likeVideo(String videoId, String username) {
-
-		User user = userRepository.findOne(username);
-		if (!user.getLikedVideos().contains(videoId)) {
-			user.getLikedVideos().add(videoId);
-			Video video = videoRepository.findOne(videoId);
-			video.setLikesCounter(video.getLikesCounter() + 1);
-		}
-	}
-
-	@Override
-	public void removeLikeFromVideo(String videoId, String username) {
-
-		User user = userRepository.findOne(username);
-		if (user.getLikedVideos().contains(videoId)) {
-			user.getLikedVideos().remove(videoId);
-			Video video = videoRepository.findOne(videoId);
-			video.setLikesCounter(video.getLikesCounter() - 1);
-		}
 	}
 
 	@Override
@@ -108,7 +85,7 @@ public class VideoServiceImpl implements VideoService {
 				.thumbnailId(thumbnailId)
 				.id(videoId)
 				.size(videoSize)
-				.uploadDate(LocalDate.now())
+				.uploadDate(new Date())
 				.build();
 
 		videoRepository.save(video);

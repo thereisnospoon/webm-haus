@@ -71,27 +71,6 @@ public class VideoServiceTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	public void shouldLikeVideo() {
-
-		videoService.likeVideo(video.getId(), TEST_USER);
-		User user = userRepository.findOne(TEST_USER);
-		Video retrievedVideo = videoRepository.findOne(video.getId());
-		assertEquals(1L, retrievedVideo.getLikesCounter());
-		assertTrue(user.getLikedVideos().contains(video.getId()));
-	}
-
-	@Test
-	public void shouldRemoveLikeFromVideo() {
-
-		videoService.likeVideo(video.getId(), TEST_USER);
-		videoService.removeLikeFromVideo(video.getId(), TEST_USER);
-		User user = userRepository.findOne(TEST_USER);
-		Video retrievedVideo = videoRepository.findOne(video.getId());
-		assertEquals(0L, retrievedVideo.getLikesCounter());
-		assertFalse(user.getLikedVideos().contains(video.getId()));
-	}
-
-	@Test
 	public void shouldIncrementViewsCounter() {
 
 		videoService.incrementViewsCounter(video.getId());

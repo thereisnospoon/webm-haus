@@ -22,10 +22,7 @@ public class VideoRepositoryTest extends AbstractIntegrationTest {
 	public void setUp() {
 
 		deleteDataIfExists();
-		User user = createTestUser();
-		user = userRepository.save(user);
 		Video video = createTestVideo();
-		video.setUser(user);
 		testedInstance.save(video);
 	}
 
@@ -58,12 +55,5 @@ public class VideoRepositoryTest extends AbstractIntegrationTest {
 		assertTrue(testedInstance.exists(TEST_VIDEO_ID));
 		testedInstance.delete(TEST_VIDEO_ID);
 		assertFalse(testedInstance.exists(TEST_VIDEO_ID));
-	}
-
-	@Test
-	public void shouldHaveReferenceToUser() {
-
-		Video video = testedInstance.findOne(TEST_VIDEO_ID);
-		assertEquals(TEST_USER_EMAIL, video.getUser().getEmail());
 	}
 }

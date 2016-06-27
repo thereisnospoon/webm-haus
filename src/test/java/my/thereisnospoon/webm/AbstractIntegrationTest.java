@@ -3,19 +3,13 @@ package my.thereisnospoon.webm;
 import my.thereisnospoon.webm.vo.User;
 import my.thereisnospoon.webm.vo.Video;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/webm-config.xml")
-@ActiveProfiles("windows")
-@Transactional
-@Commit
+@SpringApplicationConfiguration(Application.class)
 public abstract class AbstractIntegrationTest {
 
 	public static final String TEST_USERNAME = "test_username_1";
@@ -39,7 +33,7 @@ public abstract class AbstractIntegrationTest {
 				.id(TEST_VIDEO_ID)
 				.size(TEST_VIDEO_NUMERIC_DATA)
 				.thumbnailId(TEST_VIDEO_STRING_DATA)
-				.uploadDate(LocalDate.now())
+				.uploadDate(new Date())
 				.build();
 	}
 }

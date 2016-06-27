@@ -4,27 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.cassandra.mapping.PrimaryKey;
+import org.springframework.data.cassandra.mapping.Table;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "comments")
+@Table
 public class Comment {
 
-	@Id
-	@GeneratedValue
 	private Long id;
 	private String username;
 	private String text;
-	private LocalDateTime timestamp;
+
+	@PrimaryKey
+	private Date timestamp;
 	private long likesCounter;
 	private String videoId;
-
-	@OneToOne
-	private Comment commentAnsweredOn;
 }
