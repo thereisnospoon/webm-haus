@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table("videos")
 public class Video {
 
 	@PrimaryKey

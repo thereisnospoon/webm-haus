@@ -41,7 +41,7 @@ public class VideoServiceImpl implements VideoService {
 	@Value("${video.ffprobe}")
 	private String ffprobeLocation;
 
-	@Value("${video.temp_files_location}")
+	@Value("${video.temp_folder:/tmp}")
 	private String tempFolderLocation;
 
 	@Autowired
@@ -58,6 +58,7 @@ public class VideoServiceImpl implements VideoService {
 
 		Video video = videoRepository.findOne(videoId);
 		video.setViewsCounter(video.getViewsCounter() + 1);
+		videoRepository.save(video);
 	}
 
 	@Override

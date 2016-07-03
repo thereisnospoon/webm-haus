@@ -34,20 +34,22 @@ public class CommentsRepositoryTest extends AbstractIntegrationTest {
 
 		return Comment.builder()
 				.text("text")
-				.timestamp(new Date())
 				.username(TEST_USERNAME)
-				.videoId(TEST_VIDEO_ID)
+				.key(Comment.Key.builder()
+						.ts(new Date())
+						.videoId(TEST_VIDEO_ID)
+						.build())
 				.build();
 	}
 
 	@After
 	public void cleanUp() {
 
-		if (commentsRepository.exists(childComment.getId())) {
+		if (commentsRepository.exists(childComment.getKey())) {
 			commentsRepository.delete(childComment);
 		}
 
-		if (commentsRepository.exists(comment.getId())) {
+		if (commentsRepository.exists(comment.getKey())) {
 			commentsRepository.delete(comment);
 		}
 	}
@@ -55,8 +57,8 @@ public class CommentsRepositoryTest extends AbstractIntegrationTest {
 	@Test
 	public void shouldDeleteChildComment() {
 
-		commentsRepository.delete(childComment.getId());
-		assertTrue(commentsRepository.exists(comment.getId()));
-		assertFalse(commentsRepository.exists(childComment.getId()));
+		commentsRepository.delete(childComment);
+		assertFalse(commentsRepository.exists(childComment.getKey()));
+		assertTrue(commentsRepository.exists(comment.getKey()));
 	}
 }

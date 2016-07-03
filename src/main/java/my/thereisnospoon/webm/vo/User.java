@@ -10,7 +10,7 @@ import org.springframework.data.cassandra.mapping.Table;
 
 import javax.annotation.Nullable;
 
-@Table
+@Table("users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

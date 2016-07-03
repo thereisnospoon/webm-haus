@@ -1,7 +1,6 @@
 package my.thereisnospoon.webm.repositories;
 
 import my.thereisnospoon.webm.AbstractIntegrationTest;
-import my.thereisnospoon.webm.vo.User;
 import my.thereisnospoon.webm.vo.Video;
 import org.junit.After;
 import org.junit.Before;

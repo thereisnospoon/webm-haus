@@ -69,7 +69,7 @@ public class GridFsServiceTest extends AbstractIntegrationTest {
 	@Test
 	public void testIsDataUnique() {
 
-		gridFsService.storeData(data, ContentType.VIDEO);
+		fileId = gridFsService.storeData(data, ContentType.VIDEO).getId().toString();
 		assertFalse(gridFsService.isDataUnique(dataHash, ContentType.VIDEO));
 	}
 
